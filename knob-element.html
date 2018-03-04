@@ -6,8 +6,16 @@
             :host {
                 display : block;
             }
+
+            .box {
+                width            : 100px;
+                height           : 100px;
+                background-color : #2f9c0a;
+            }
         </style>
-        <h2>Hello [[prop1]]!</h2>
+
+        <div id="box" class="box" on-drag="drag"></div>
+
     </template>
 
     <script>
@@ -29,6 +37,19 @@
                         value: 'knob-element'
                     }
                 };
+            }
+
+            ready () {
+                super.ready ();
+
+                this.$.box.addEventListener ('drag', e => {
+                    console.log (e);
+                });
+
+            }
+
+            drag () {
+                console.log (drag);
             }
         }
 
