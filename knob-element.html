@@ -1,0 +1,37 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="knob-element">
+    <template>
+        <style>
+            :host {
+                display : block;
+            }
+        </style>
+        <h2>Hello [[prop1]]!</h2>
+    </template>
+
+    <script>
+        /**
+         * `knob-element`
+         * ui of like knob
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class KnobElement extends Polymer.Element {
+            static get is () { return 'knob-element'; }
+
+            static get properties () {
+                return {
+                    prop1: {
+                        type : String,
+                        value: 'knob-element'
+                    }
+                };
+            }
+        }
+
+        window.customElements.define (KnobElement.is, KnobElement);
+    </script>
+</dom-module>
