@@ -17,16 +17,18 @@
 
             .wrapper .box__wrapper {
                 position: relative;
-                padding: 50px;
+                padding: 150px;
             }
 
             .wrapper .box__wrapper .box {
                 position: absolute;
                 top : 0;
                 left: 0;
-                width            : 100px;
-                height           : 100px;
-                background-color : #2f9c0a;
+                width            : 300px;
+                height           : 300px;
+                background-image: url("../../circle.png");
+                background-size: contain;
+                background-repeat: no-repeat;
             }
 
         </style>
@@ -35,6 +37,7 @@
             <div class="debug__wrapper">
                 <div class="x">x : [[x]]</div>
                 <div class="y">y : [[y]]</div>
+                <div class="y">degree : [[degree]]</div>
             </div>
             <div class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">[[message]]</div>
@@ -66,36 +69,47 @@
                 this.width = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
                 this.rect = this.$.box.getBoundingClientRect();
-            }
-
-            getRadian (x1, y1, x2, y2) {
-                const radian = Math.atan2(y2 - y1, x2 - x1);
-                return radian;
+                this.degree = 0;
+                this.start = 0;
+                this.end   = 0;
             }
 
             handleTrack (e) {
                 switch(e.detail.state) {
                     case 'start':
+                        this.start = this.setRotate(e);
+                        this.$.box.style.willChange = 'transform';
                         break;
                     case 'track':
-                        this.x = e.detail.x;
-                        this.y = e.detail.y;
-
-                        this.degree = this.getRadian(
-                            this.rect.x + (this.width / 2),
-                            this.rect.y + (this.height / 2),
-                            this.x,
-                            this.y
-                        ) * 180 / Math.PI;
-
-                        this.degree = Math.round(this.degree);
+                        this.end     = this.setRotate(e);
+                        this.degree += this.end - this.start;
+                        this.start   = this.end;
 
                         this.$.box.style.transform = `rotate(${this.degree}deg)`;
-
                         break;
                     case 'end':
+                        this.$.box.style.willChange = 'inherit';
                         break;
                 }
+            }
+
+            setRotate (e) {
+                this.x = e.detail.x;
+                this.y = e.detail.y;
+
+                let degree = this.getRadian(
+                    this.rect.x + (this.width / 2),
+                    this.rect.y + (this.height / 2),
+                    this.x,
+                    this.y
+                ) * 180 / Math.PI;
+
+                return Math.round(degree);
+            }
+
+            getRadian (x1, y1, x2, y2) {
+                const radian = Math.atan2(y2 - y1, x2 - x1);
+                return radian;
             }
         }
 
