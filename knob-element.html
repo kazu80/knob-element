@@ -37,7 +37,7 @@
             <div class="debug__wrapper">
                 <div class="x">x : [[x]]</div>
                 <div class="y">y : [[y]]</div>
-                <div class="y">degree : [[degree]]</div>
+                <div class="y">degree : <input type="text" value="{{degree::input}}" /></div>
             </div>
             <div class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">[[message]]</div>
@@ -60,6 +60,11 @@
 
             static get properties () {
                 return {
+                    degree: {
+                        type: Number,
+                        value: 0,
+                        observer: '_changeDegree',
+                    }
                 };
             }
 
@@ -69,7 +74,6 @@
                 this.width = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
                 this.rect = this.$.box.getBoundingClientRect();
-                this.degree = 0;
                 this.start = 0;
                 this.end   = 0;
             }
@@ -84,8 +88,6 @@
                         this.end     = this.setRotate(e);
                         this.degree += this.end - this.start;
                         this.start   = this.end;
-
-                        this.$.box.style.transform = `rotate(${this.degree}deg)`;
                         break;
                     case 'end':
                         this.$.box.style.willChange = 'inherit';
@@ -110,6 +112,10 @@
             getRadian (x1, y1, x2, y2) {
                 const radian = Math.atan2(y2 - y1, x2 - x1);
                 return radian;
+            }
+
+            _changeDegree(val, old) {
+                this.$.box.style.transform = `rotate(${val}deg)`;
             }
         }
 
