@@ -25,6 +25,13 @@
             <knob-element></knob-element>
         </template>
     </demo-snippet>
+    <script>
+        (function () {
+            document.body.addEventListener ('touchmove', function (e) {
+                e.preventDefault ();
+            });
+        }) ();
+    </script>
 </div>
 </body>
 </html>

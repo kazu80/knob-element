@@ -15,21 +15,31 @@
                 margin-bottom: 20px;
             }
 
+            @media (max-width : 767px) {
+                .wrapper .debug__wrapper {
+                    display        : flex;
+                    flex-direction : column;
+                    margin-bottom  : 20px;
+                }
+            }
+
             .wrapper .box__wrapper {
-                position: relative;
-                padding: 150px;
+                position : relative;
+                padding  : 150px;
+                overflow : hidden;
             }
 
             .wrapper .box__wrapper .box {
-                position: absolute;
-                top : 0;
-                left: 0;
-                width            : 300px;
-                height           : 300px;
-                background-image: url("../../circle.png");
-                background-size: contain;
-                background-repeat: no-repeat;
-                transition: transform 200ms;
+                position          : absolute;
+                top               : 0;
+                left              : 0;
+                width             : 300px;
+                height            : 300px;
+                background-color  : #eeeeee;
+                background-image  : url("../../circle.png");
+                background-size   : contain;
+                background-repeat : no-repeat;
+                transition        : transform 200ms;
             }
 
         </style>
