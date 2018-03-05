@@ -71,26 +71,37 @@
             ready () {
                 super.ready ();
 
-                this.width = this.$.box.clientWidth;
+                this.width  = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
-                this.rect = this.$.box.getBoundingClientRect();
-                this.start = 0;
-                this.end   = 0;
+                this.rect   = this.$.box.getBoundingClientRect();
+                this.start  = 0;
+                this.end    = 0;
+                this.divide = 90;
             }
 
             handleTrack (e) {
                 switch(e.detail.state) {
                     case 'start':
                         this.start = this.setRotate(e);
-                        this.$.box.style.willChange = 'transform';
+                        this.style.willChange = 'transform';
                         break;
                     case 'track':
                         this.end     = this.setRotate(e);
-                        this.degree += this.end - this.start;
+                        this.degree  = Number(this.degree) + this.end - this.start;
                         this.start   = this.end;
                         break;
                     case 'end':
-                        this.$.box.style.willChange = 'inherit';
+                        this.style.willChange = 'inherit';
+
+                        const half = this.divide / 2;
+                        const remainder = this.degree % this.divide;
+                        if (remainder > half) {
+                            this.degree += half - (remainder - half);
+                        } else {
+                            this.degree -= remainder;
+                        }
+
+                        this.start = this.degree;
                         break;
                 }
             }
@@ -106,12 +117,15 @@
                     this.y
                 ) * 180 / Math.PI;
 
-                return Math.round(degree);
+                degree = Math.round(degree);
+
+                if (degree < 0) degree += 360;
+
+                return degree;
             }
 
             getRadian (x1, y1, x2, y2) {
-                const radian = Math.atan2(y2 - y1, x2 - x1);
-                return radian;
+                return Math.atan2 (y2 - y1, x2 - x1);
             }
 
             _changeDegree(val, old) {
