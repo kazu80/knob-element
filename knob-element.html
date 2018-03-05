@@ -29,6 +29,7 @@
                 background-image: url("../../circle.png");
                 background-size: contain;
                 background-repeat: no-repeat;
+                transition: transform 200ms;
             }
 
         </style>
@@ -76,7 +77,7 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.divide = 90;
+                this.divide = 360 / 9;
             }
 
             handleTrack (e) {
