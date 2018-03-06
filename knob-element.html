@@ -101,7 +101,7 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.count  = 5;
+                this.count = 4;
                 this.divide = 360 / this.count;
 
                 this.items = [
@@ -113,9 +113,22 @@
                     {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
                 ];
 
+                const x1 = this.width / 2;
+                const y1 = this.height / 2;
+                const distance = 125;
                 for (let i = 0; i < this.count; i++) {
                     const item = this.items[i];
 
+                    let angle = this.divide * i;
+
+                    angle = angle - 90;
+
+                    const x2 = x1 + distance * Math.cos (angle * (Math.PI / 180));
+                    const y2 = y1 + distance * Math.sin (angle * (Math.PI / 180));
+
+                    console.log (x1, y1, angle, x2, y2);
+
+                    /*
                     let y2 = 0;
                     let x2 = 0;
 
@@ -127,6 +140,7 @@
 
                     x2 += 150;
                     y2 += (150 - 10);
+                    */
 
                     const el = document.createElement('div');
                     el.classList.add('item');
@@ -137,7 +151,6 @@
                     el.style.left = `${x2}px`;
 
                     this.$.box.appendChild(el);
-
                 }
             }
 
