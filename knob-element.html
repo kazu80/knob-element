@@ -35,7 +35,7 @@
                 left              : 0;
                 width             : 300px;
                 height            : 300px;
-                background-color  : #eeeeee;
+                background-color  : transparent;
                 background-image  : url("../../circle.png");
                 background-size   : contain;
                 background-repeat : no-repeat;
@@ -48,7 +48,7 @@
             <div class="debug__wrapper">
                 <div class="x">x : [[x]]</div>
                 <div class="y">y : [[y]]</div>
-                <div class="y">degree : <input type="text" value="{{degree::input}}" /></div>
+                <div class="y">degree : <input type="text" size="4" value="{{degree::input}}" /></div>
             </div>
             <div class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">[[message]]</div>
@@ -75,7 +75,7 @@
                         type: Number,
                         value: 0,
                         observer: '_changeDegree',
-                    }
+                    },
                 };
             }
 
@@ -104,6 +104,10 @@
                     case 'end':
                         this.style.willChange = 'inherit';
 
+                        // Out of range
+                        if (this.degree < 0) this.degree = 0;
+
+                        // correction
                         const half = this.divide / 2;
                         const remainder = this.degree % this.divide;
                         if (remainder > half) {
@@ -113,15 +117,37 @@
                         }
 
                         this.start = this.degree;
+
+                        // Event
+                        this.dispatchEvent (new CustomEvent ('changed', {detail: {degree: this.degree}}));
+
                         break;
                 }
             }
 
             static filterDegree (start, end, total, filter) {
+                // limiter
                 if (Math.abs (end - start) < filter) {
-                    return Number (total) + end - start;
+                    total = Number (total) + end - start;
                 }
+
+                // smoother
+                total = this.smoother(total);
+
+                // bar
+                total = this.bar(total);
+
                 return Number (total);
+            }
+
+            static smoother (val) {
+                val += 1.5;
+                return val;
+            }
+
+            static bar(val) {
+                if (val < 0) val *= 0.95;
+                return val;
             }
 
             setRotate (e) {

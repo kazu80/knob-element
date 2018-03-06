@@ -22,7 +22,13 @@
     <h3>Basic knob-element demo</h3>
     <demo-snippet>
         <template>
-            <knob-element></knob-element>
+            <knob-element id="knob"></knob-element>
+            <script>
+                const knob = document.getElementById('knob');
+                knob.addEventListener('changed', (e) => {
+                    console.log('changed', e.detail.degree);
+                });
+            </script>
         </template>
     </demo-snippet>
     <script>
