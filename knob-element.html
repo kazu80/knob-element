@@ -87,7 +87,7 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.divide = 360 / 4;
+                this.divide = 360 / 5;
             }
 
             handleTrack (e) {
@@ -98,7 +98,7 @@
                         break;
                     case 'track':
                         this.end     = this.setRotate(e);
-                        this.degree = KnobElement.filterDegree (this.start, this.end, this.degree, 10);
+                        this.degree  = KnobElement.filterDegree (this.start, this.end, this.degree, 10);
                         this.start   = this.end;
                         break;
                     case 'end':
