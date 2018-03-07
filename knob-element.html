@@ -114,6 +114,10 @@
                         value: 0,
                         observer: '_changeDegree',
                     },
+                    selected: {
+                        type: Number,
+                        observer: '_changeSelected',
+                    }
                 };
             }
 
@@ -128,6 +132,7 @@
                 this.count  = 6;
                 this.divide = 360 / this.count;
                 this.display = 5;
+                this.selected = 1;
 
                 this.items = [
                     {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
@@ -205,11 +210,14 @@
                         // set past degree
                         this.start = this.degree;
 
-                        // Fire event
-                        this.dispatchEvent (new CustomEvent ('changed', {detail: {degree: this.degree}}));
-
+                        // set selected
+                        this.selected = this.Degree2Selected();
                         break;
                 }
+            }
+
+            Degree2Selected() {
+                return (this.degree / this.divide) + 1;
             }
 
             static filterDegree (start, end, total, filter) {
@@ -255,6 +263,12 @@
                     } else {
                         item.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
                     }
+                }
+            }
+
+            _changeSelected(val, old) {
+                if (val !== old) {
+                    this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
                 }
             }
 
