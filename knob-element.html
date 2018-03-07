@@ -100,10 +100,6 @@
                         type: Number,
                         value: 125,
                     },
-                    menuCount: {
-                        type: Number,
-                        value: 6,
-                    },
                     menuBorder: {
                         type: Number,
                         value: 3,
@@ -121,13 +117,14 @@
                 this.width  = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
                 this.rect   = this.$.box.getBoundingClientRect();
+                this.menusElement = Polymer.dom (this.slot).querySelectorAll ('.menu');
                 this.start  = 0;
                 this.end    = 0;
-                this.divide = 360 / this.menuCount;
+                this.divide = 360 / this.menusElement.length;
                 this.selected = 1;
                 this.position_visible = this.menuBorder;
                 this.position_disapper = this.menuBorder;
-                this.menusElement = Polymer.dom(this.slot).querySelectorAll('.menu');
+
 
                 this.setMenus();
             }
@@ -180,7 +177,14 @@
                         break;
                     case 'track':
                         this.end     = this.setRotate(e);
-                        this.degree  = KnobElement.filterDegree (this.start, this.end, this.degree, 10);
+                        this.degree = KnobElement.filterDegree (
+                            this.start,
+                            this.end,
+                            this.degree,
+                            100,
+                            this.divide * this.menusElement.length,
+                            0
+                        );
                         this.start   = this.end;
                         break;
                     case 'end':
@@ -219,7 +223,7 @@
                 return (this.degree / this.divide) + 1;
             }
 
-            static filterDegree (start, end, total, filter) {
+            static filterDegree (start, end, total, filter, max, min) {
                 //
                 let move = end - start;
 
@@ -231,14 +235,13 @@
                 // limiter
                 if (Math.abs (move) < filter) {
                     total = Number (total) + move;
+
+                    // smoother
+                    total = this.smoother (total);
+
+                    // bar
+                    total = this.bar (total, max, min);
                 }
-
-                // smoother
-                total = this.smoother(total);
-
-                // bar
-                total = this.bar(total);
-
 
                 return Number (total);
             }
@@ -246,22 +249,19 @@
             _changeDegree(val, old) {
                 // direction of box rotate
                 if (KnobConstant.DIRECTION_SWIPE === 'left') {
-                    this.$.box.style.transform = `rotate(-${val}deg)`;
-                } else {
-                    this.$.box.style.transform = `rotate(${val}deg)`;
+                    val = val * -1;
                 }
+                this.$.box.style.transform = `rotate(${val}deg)`;
 
                 // CSS
                 if (this.menusElement) {
+                    if (KnobConstant.DIRECTION_SWIPE === 'left') {
+                        val = val * -1;
+                    }
+
                     for (let i = 0; i < this.menusElement.length; i++) {
                         const menu = this.menusElement[i];
-
-                        // direction of box rotate
-                        if (KnobConstant.DIRECTION_SWIPE === 'left') {
-                            menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
-                        } else {
-                            menu.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
-                        }
+                        menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
                     }
                 }
             }
@@ -296,8 +296,13 @@
                 return val;
             }
 
-            static bar(val) {
-                if (val < 0) val *= 0.95;
+            static bar (val, max, min) {
+                if (val < min) {
+                    val *= 0.95;
+                }
+                if (val > max) {
+                    val *= 0.95;
+                }
                 return val;
             }
 
@@ -314,8 +319,6 @@
                 ) * 180 / Math.PI;
 
                 degree = Math.round(degree);
-
-                if (degree < 0) degree += 360;
 
                 return degree;
             }
