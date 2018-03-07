@@ -141,6 +141,7 @@
                 this.divide = 360 / this.count;
                 this.display = 6;
                 this.selected = 1;
+                this.menusElement = [];
 
                 this.items = [
                     {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
@@ -158,6 +159,8 @@
                 ];
 
                 this.setMenus();
+
+                this.menusElement = Polymer.dom(this.root).querySelectorAll('.item');
             }
 
             setMenus () {
@@ -209,6 +212,12 @@
                     case 'start':
                         this.start = this.setRotate(e);
                         this.style.willChange = 'transform';
+
+                        for (let i = 0; i < this.menusElement.length; i++) {
+                            const menu = this.menusElement[i];
+                            menu.style.willChange = 'transform';
+                        }
+
                         break;
                     case 'track':
                         this.end     = this.setRotate(e);
@@ -218,11 +227,16 @@
                     case 'end':
                         this.style.willChange = 'inherit';
 
+                        for (let i = 0; i < this.menusElement.length; i++) {
+                            const menu = this.menusElement[i];
+                            menu.style.willChange = 'inherit';
+                        }
+
                         // Out of range
                         if (this.degree < 0) this.degree = 0;
 
                         // Max of range
-                        if (this.degree > this.divide * (this.items.length - 1)) this.degree = this.divide * (this.items.length - 1);
+                        if (this.degree > this.divide * (this.menusElement.length - 1)) this.degree = this.divide * (this.menusElement.length - 1);
 
                         // correction
                         const half      = this.divide / 2;
@@ -278,15 +292,16 @@
                 }
 
                 // CSS
-                const items = Polymer.dom(this.root).querySelectorAll('.item');
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i];
+                if (this.menusElement) {
+                    for (let i = 0; i < this.menusElement.length; i++) {
+                        const menu = this.menusElement[i];
 
-                    // direction of box rotate
-                    if (KnobConstant.DIRECTION_SWIPE === 'left') {
-                        item.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
-                    } else {
-                        item.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
+                        // direction of box rotate
+                        if (KnobConstant.DIRECTION_SWIPE === 'left') {
+                            menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
+                        } else {
+                            menu.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
+                        }
                     }
                 }
             }
@@ -296,21 +311,21 @@
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
 
                     //
-                    const menus = Polymer.dom(this.root).querySelector('#box').children;
+                    if (this.menusElement) {
+                        for (let i = 0; i < this.menusElement.length; i++) {
+                            const menu = this.menusElement[i];
 
-                    for (let i = 0; i < menus.length; i++) {
-                        const menu = menus[i];
+                            if (i < KnobConstant.POSITION_VISIBLE + (val - 1)) {
+                                menu.style.display = 'block';
+                            }
 
-                        if (i < KnobConstant.POSITION_VISIBLE + (val - 1)) {
-                            menu.style.display = 'block';
-                        }
+                            if (i < val - KnobConstant.POSITION_DISAPPEAR ) {
+                                menu.style.display = 'none';
+                            }
 
-                        if (i < val - KnobConstant.POSITION_DISAPPEAR ) {
-                            menu.style.display = 'none';
-                        }
-
-                        if (i > val + KnobConstant.POSITION_DISAPPEAR - 2) {
-                            menu.style.display = 'none';
+                            if (i > val + KnobConstant.POSITION_DISAPPEAR - 2) {
+                                menu.style.display = 'none';
+                            }
                         }
                     }
                 }
