@@ -64,7 +64,7 @@
             </div>
             <div class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">
-
+                    <slot></slot>
                 </div>
             </div>
         </div>
@@ -77,28 +77,12 @@
                 return 'div';
             }
 
-            static get ICON_DISTANCE_FROM_BASE_POINT() {
-                return 125;
-            }
-
             static get ICON_CSS_CLASS_NAME() {
                 return 'item';
             }
 
-            static get START_POSITION_RADIUS_OF_ICON() {
-                return 90;
-            }
-
             static get DIRECTION_SWIPE() {
                 return 'left';
-            }
-
-            static get POSITION_VISIBLE() {
-                return 3;
-            }
-
-            static get POSITION_DISAPPEAR() {
-                return 3;
             }
         }
 
@@ -116,7 +100,6 @@
 
             static get properties () {
                 return {
-                    items: Array,
                     degree: {
                         type: Number,
                         value: 0,
@@ -125,6 +108,22 @@
                     selected: {
                         type: Number,
                         observer: '_changeSelected',
+                    },
+                    distance: {
+                        type: Number,
+                        value: 125,
+                    },
+                    menuCount: {
+                        type: Number,
+                        value: 6,
+                    },
+                    menuBorder: {
+                        type: Number,
+                        value: 3,
+                    },
+                    menuStartPosition: {
+                        type: Number,
+                        value: 90,
                     }
                 };
             }
@@ -137,54 +136,28 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.count  = 6;
-                this.divide = 360 / this.count;
-                this.display = 6;
+                this.divide = 360 / this.menuCount;
                 this.selected = 1;
                 this.menusElement = [];
-
-                this.items = [
-                    {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
-                    {icon: '../../../icons/png/002-skype.png', name: 'skype'},
-                    {icon: '../../../icons/png/003-snapchat.png', name: 'snapchat'},
-                    {icon: '../../../icons/png/004-github.png', name: 'twich'},
-                    {icon: '../../../icons/png/005-twitter.png', name: 'skype'},
-                    {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
-                    {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
-                    {icon: '../../../icons/png/002-skype.png', name: 'skype'},
-                    {icon: '../../../icons/png/003-snapchat.png', name: 'snapchat'},
-                    {icon: '../../../icons/png/004-github.png', name: 'twich'},
-                    {icon: '../../../icons/png/005-twitter.png', name: 'skype'},
-                    {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
-                ];
+                this.position_visible = this.menuBorder;
+                this.position_disapper = this.menuBorder;
+                this.menusElement = Polymer.dom(this.slot).querySelectorAll('.menu');
 
                 this.setMenus();
-
-                this.menusElement = Polymer.dom(this.root).querySelectorAll('.item');
             }
 
             setMenus () {
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
-                const distance         = KnobConstant.ICON_DISTANCE_FROM_BASE_POINT;
+                const distance         = this.distance;
 
-                for (let i = 0; i < this.items.length; i++) {
-                    const item = this.items[i];
+                for (let i = 0; i < this.menusElement.length; i++) {
+                    const menu = this.menusElement[i];
 
                     // set angle of parts
                     let angle = this.divide * i;
 
                     // update start position
-                    angle = angle - KnobConstant.START_POSITION_RADIUS_OF_ICON;
-
-                    // create element for icon
-                    const menu = document.createElement(KnobConstant.ELEMENT_ICON);
-
-                    // set class
-                    menu.classList.add(KnobConstant.ICON_CSS_CLASS_NAME);
-
-                    // set style
-                    menu.style.position        = 'absolute';
-                    menu.style.backgroundImage = `url(${item['icon']})`;
+                    angle = angle - this.menuStartPosition;
 
                     const x2 = base_x + distance * Math.cos (angle * (Math.PI / 180));
                     const y2 = base_y + distance * Math.sin (angle * (Math.PI / 180));
@@ -192,7 +165,7 @@
                     menu.style.left = `${x2}px`;
 
                     // set visible
-                    if (i < KnobConstant.POSITION_VISIBLE) {
+                    if (i < this.position_visible) {
                         menu.style.display = 'block';
                     } else {
                         menu.style.display = 'none';
@@ -315,15 +288,15 @@
                         for (let i = 0; i < this.menusElement.length; i++) {
                             const menu = this.menusElement[i];
 
-                            if (i < KnobConstant.POSITION_VISIBLE + (val - 1)) {
+                            if (i < this.position_visible + (val - 1)) {
                                 menu.style.display = 'block';
                             }
 
-                            if (i < val - KnobConstant.POSITION_DISAPPEAR ) {
+                            if (i < val - this.position_disapper ) {
                                 menu.style.display = 'none';
                             }
 
-                            if (i > val + KnobConstant.POSITION_DISAPPEAR - 2) {
+                            if (i > val + this.position_disapper - 2) {
                                 menu.style.display = 'none';
                             }
                         }

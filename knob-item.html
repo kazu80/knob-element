@@ -1,0 +1,58 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
+<dom-module id="knob-item">
+    <template>
+        <style>
+            :host {
+                position          : absolute;
+                width             : 40px;
+                height            : 40px;
+                background-size   : cover;
+                background-repeat : no-repeat;
+                transform         : translate(-50%, -50%);
+                transform-origin  : 0 0;
+                transition        : transform 200ms;
+            }
+
+            .title {
+                display: inline-block;
+                position: relative;
+                left: 50%;
+                bottom: -45px;
+                transform: translateX(-50%);
+            }
+        </style>
+        <div class="title">{{title}}</div>
+    </template>
+    <script>
+        class KnobItem extends Polymer.GestureEventListeners(Polymer.Element) {
+            static get is () { return 'knob-item'; }
+
+            static get properties () {
+                return {
+                    image: {
+                        type: String,
+                    },
+                    width: {
+                        type: String,
+                        value: '40px',
+                    },
+                    height: {
+                        type: String,
+                        value: '40px',
+                    },
+                    title: {
+                        type: String,
+                    }
+                }
+            }
+
+            ready () {
+                super.ready ();
+
+                this.style.backgroundImage = `url(${this.image})`;
+            }
+        }
+        window.customElements.define (KnobItem.is, KnobItem);
+    </script>
+</dom-module>

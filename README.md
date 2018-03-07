@@ -2,20 +2,12 @@
 
 ui of like knob
 
-## Install the Polymer-CLI
+## Parameter
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+| key | default | description |
+----|---- 
+| distance | 125 | Distance of menu from base point |
+| menu-count | 6 | Number of menu |
+| menu-border | 3 | Border of visible or disappear for menu |
+| menu-start-position | 90 | Start position of menu. This value is degree unit |  
 
-## Viewing Your Element
-
-```
-$ polymer serve
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
