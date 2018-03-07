@@ -286,9 +286,10 @@
                 this.x = e.detail.x;
                 this.y = e.detail.y;
 
+                const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
                 let degree = KnobElement.getRadian (
-                    this.rect.x + (this.width / 2),
-                    this.rect.y + (this.height / 2),
+                    this.rect.x + base_x,
+                    this.rect.y + base_y,
                     this.x,
                     this.y
                 ) * 180 / Math.PI;
