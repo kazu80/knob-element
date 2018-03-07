@@ -92,6 +92,14 @@
             static get DIRECTION_SWIPE() {
                 return 'left';
             }
+
+            static get POSITION_VISIBLE() {
+                return 3;
+            }
+
+            static get POSITION_DISAPPEAR() {
+                return 3;
+            }
         }
 
         /**
@@ -131,7 +139,7 @@
                 this.end    = 0;
                 this.count  = 6;
                 this.divide = 360 / this.count;
-                this.display = 5;
+                this.display = 6;
                 this.selected = 1;
 
                 this.items = [
@@ -141,15 +149,23 @@
                     {icon: '../../../icons/png/004-github.png', name: 'twich'},
                     {icon: '../../../icons/png/005-twitter.png', name: 'skype'},
                     {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
+                    {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
+                    {icon: '../../../icons/png/002-skype.png', name: 'skype'},
+                    {icon: '../../../icons/png/003-snapchat.png', name: 'snapchat'},
+                    {icon: '../../../icons/png/004-github.png', name: 'twich'},
+                    {icon: '../../../icons/png/005-twitter.png', name: 'skype'},
+                    {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
                 ];
 
+                this.setMenus();
+            }
+
+            setMenus () {
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
                 const distance         = KnobConstant.ICON_DISTANCE_FROM_BASE_POINT;
-                for (let i = 0; i < this.count; i++) {
-                    const item = this.items[i];
 
-                    //
-                    if (i >= this.display) break;
+                for (let i = 0; i < this.items.length; i++) {
+                    const item = this.items[i];
 
                     // set angle of parts
                     let angle = this.divide * i;
@@ -158,22 +174,29 @@
                     angle = angle - KnobConstant.START_POSITION_RADIUS_OF_ICON;
 
                     // create element for icon
-                    const icon = document.createElement(KnobConstant.ELEMENT_ICON);
+                    const menu = document.createElement(KnobConstant.ELEMENT_ICON);
 
                     // set class
-                    icon.classList.add(KnobConstant.ICON_CSS_CLASS_NAME);
+                    menu.classList.add(KnobConstant.ICON_CSS_CLASS_NAME);
 
                     // set style
-                    icon.style.position        = 'absolute';
-                    icon.style.backgroundImage = `url(${item['icon']})`;
+                    menu.style.position        = 'absolute';
+                    menu.style.backgroundImage = `url(${item['icon']})`;
 
                     const x2 = base_x + distance * Math.cos (angle * (Math.PI / 180));
                     const y2 = base_y + distance * Math.sin (angle * (Math.PI / 180));
-                    icon.style.top  = `${y2}px`;
-                    icon.style.left = `${x2}px`;
+                    menu.style.top  = `${y2}px`;
+                    menu.style.left = `${x2}px`;
+
+                    // set visible
+                    if (i < KnobConstant.POSITION_VISIBLE) {
+                        menu.style.display = 'block';
+                    } else {
+                        menu.style.display = 'none';
+                    }
 
                     // adapt icon
-                    this.$.box.appendChild(icon);
+                    this.$.box.appendChild(menu);
                 }
             }
 
@@ -198,6 +221,9 @@
                         // Out of range
                         if (this.degree < 0) this.degree = 0;
 
+                        // Max of range
+                        if (this.degree > this.divide * (this.items.length - 1)) this.degree = this.divide * (this.items.length - 1);
+
                         // correction
                         const half      = this.divide / 2;
                         const remainder = this.degree % this.divide;
@@ -221,7 +247,6 @@
             }
 
             static filterDegree (start, end, total, filter) {
-
                 //
                 let move = end - start;
 
@@ -269,6 +294,25 @@
             _changeSelected(val, old) {
                 if (val !== old) {
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
+
+                    //
+                    const menus = Polymer.dom(this.root).querySelector('#box').children;
+
+                    for (let i = 0; i < menus.length; i++) {
+                        const menu = menus[i];
+
+                        if (i < KnobConstant.POSITION_VISIBLE + (val - 1)) {
+                            menu.style.display = 'block';
+                        }
+
+                        if (i < val - KnobConstant.POSITION_DISAPPEAR ) {
+                            menu.style.display = 'none';
+                        }
+
+                        if (i > val + KnobConstant.POSITION_DISAPPEAR - 2) {
+                            menu.style.display = 'none';
+                        }
+                    }
                 }
             }
 
