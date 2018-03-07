@@ -41,19 +41,6 @@
                 background-repeat : no-repeat;
                 transition        : transform 200ms;
             }
-
-            .wrapper .box__wrapper .box .item {
-                position          : absolute;
-                width             : 40px;
-                height            : 40px;
-                background-color  : rgb(239, 244, 255);
-                background-size   : cover;
-                background-repeat : no-repeat;
-                transform         : translate(-50%, -50%);
-                transform-origin  : 0 0;
-                transition        : transform 200ms;
-            }
-
         </style>
 
         <div class="wrapper">
@@ -138,7 +125,6 @@
                 this.end    = 0;
                 this.divide = 360 / this.menuCount;
                 this.selected = 1;
-                this.menusElement = [];
                 this.position_visible = this.menuBorder;
                 this.position_disapper = this.menuBorder;
                 this.menusElement = Polymer.dom(this.slot).querySelectorAll('.menu');
@@ -252,6 +238,7 @@
 
                 // bar
                 total = this.bar(total);
+
 
                 return Number (total);
             }
