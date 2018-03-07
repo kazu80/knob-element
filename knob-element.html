@@ -262,6 +262,18 @@
                     for (let i = 0; i < this.menusElement.length; i++) {
                         const menu = this.menusElement[i];
                         menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
+
+                        if (val > (i - this.position_visible) * this.divide) {
+                            menu.style.display = 'block';
+                        }
+
+                        if (val > (i + this.position_disapper - 1) * this.divide) {
+                            menu.style.display = 'none';
+                        }
+
+                        if ((val + (i + this.position_visible) * this.divide) < (i + this.position_disapper) * this.divide) {
+                            menu.style.display = 'none';
+                        }
                     }
                 }
             }
@@ -271,23 +283,23 @@
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
 
                     //
-                    if (this.menusElement) {
-                        for (let i = 0; i < this.menusElement.length; i++) {
-                            const menu = this.menusElement[i];
+                    /*
+                    for (let i = 0; i < this.menusElement.length; i++) {
+                        const menu = this.menusElement[i];
 
-                            if (i < this.position_visible + (val - 1)) {
-                                menu.style.display = 'block';
-                            }
+                        if (i < this.position_visible + (val - 1)) {
+                            menu.style.display = 'block';
+                        }
 
-                            if (i < val - this.position_disapper ) {
-                                menu.style.display = 'none';
-                            }
+                        if (i < val - this.position_disapper ) {
+                            menu.style.display = 'none';
+                        }
 
-                            if (i > val + this.position_disapper - 2) {
-                                menu.style.display = 'none';
-                            }
+                        if (i > val + this.position_disapper - 2) {
+                            menu.style.display = 'none';
                         }
                     }
+                    */
                 }
             }
 
