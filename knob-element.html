@@ -88,6 +88,10 @@
             static get START_POSITION_RADIUS_OF_ICON() {
                 return 90;
             }
+
+            static get DIRECTION_SWIPE() {
+                return 'left';
+            }
         }
 
         /**
@@ -123,6 +127,7 @@
                 this.end    = 0;
                 this.count  = 6;
                 this.divide = 360 / this.count;
+                this.display = 5;
 
                 this.items = [
                     {icon: '../../../icons/png/001-twitch.png', name: 'twich'},
@@ -137,6 +142,9 @@
                 const distance         = KnobConstant.ICON_DISTANCE_FROM_BASE_POINT;
                 for (let i = 0; i < this.count; i++) {
                     const item = this.items[i];
+
+                    //
+                    if (i >= this.display) break;
 
                     // set angle of parts
                     let angle = this.divide * i;
@@ -205,9 +213,18 @@
             }
 
             static filterDegree (start, end, total, filter) {
+
+                //
+                let move = end - start;
+
+                // direction of swipe
+                if (KnobConstant.DIRECTION_SWIPE === 'left') {
+                    move *= -1;
+                }
+
                 // limiter
-                if (Math.abs (end - start) < filter) {
-                    total = Number (total) + end - start;
+                if (Math.abs (move) < filter) {
+                    total = Number (total) + move;
                 }
 
                 // smoother
@@ -217,6 +234,28 @@
                 total = this.bar(total);
 
                 return Number (total);
+            }
+
+            _changeDegree(val, old) {
+                // direction of box rotate
+                if (KnobConstant.DIRECTION_SWIPE === 'left') {
+                    this.$.box.style.transform = `rotate(-${val}deg)`;
+                } else {
+                    this.$.box.style.transform = `rotate(${val}deg)`;
+                }
+
+                // CSS
+                const items = Polymer.dom(this.root).querySelectorAll('.item');
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+
+                    // direction of box rotate
+                    if (KnobConstant.DIRECTION_SWIPE === 'left') {
+                        item.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
+                    } else {
+                        item.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
+                    }
+                }
             }
 
             static smoother (val) {
@@ -249,18 +288,6 @@
 
             static getRadian (x1, y1, x2, y2) {
                 return Math.atan2 (y2 - y1, x2 - x1);
-            }
-
-            _changeDegree(val, old) {
-                this.$.box.style.transform = `rotate(${val}deg)`;
-
-                // CSS
-                const items = Polymer.dom(this.root).querySelectorAll('.item');
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i];
-
-                    item.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
-                }
             }
         }
 
