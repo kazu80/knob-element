@@ -43,13 +43,14 @@
             }
 
             .wrapper .box__wrapper .box .item {
-                position: absolute;
-                width: 40px;
-                height: 40px;
-                background-color: rgb(239, 244, 255);
-                background-size: cover;
-                background-repeat: no-repeat;
-                transform: translateX(-50%);
+                position          : absolute;
+                width             : 40px;
+                height            : 40px;
+                background-color  : rgb(239, 244, 255);
+                background-size   : cover;
+                background-repeat : no-repeat;
+                transform         : translate(-50%, -50%);
+                transform-origin  : 0 0;
                 transition        : transform 200ms;
             }
 
@@ -101,7 +102,7 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.count = 4;
+                this.count  = 6;
                 this.divide = 360 / this.count;
 
                 this.items = [
@@ -125,23 +126,6 @@
 
                     const x2 = x1 + distance * Math.cos (angle * (Math.PI / 180));
                     const y2 = y1 + distance * Math.sin (angle * (Math.PI / 180));
-
-                    console.log (x1, y1, angle, x2, y2);
-
-                    /*
-                    let y2 = 0;
-                    let x2 = 0;
-
-                    let foo = 150 * 0.1;
-
-                    const radian = (i * this.divide) * Math.PI / 180;
-                    x2 = Math.sin(radian) * (150 - foo);
-                    y2 = Math.cos(radian) * (-120 - foo);
-
-                    x2 += 150;
-                    y2 += (150 - 10);
-                    */
-
                     const el = document.createElement('div');
                     el.classList.add('item');
 
@@ -244,7 +228,7 @@
                 for (let i = 0; i < els.length; i++) {
                     const el = els[i];
 
-                    el.style.transform = `rotate(-${val}deg) translateX(-50%)`;
+                    el.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
                 }
             }
         }
