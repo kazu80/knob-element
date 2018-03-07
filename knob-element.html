@@ -72,6 +72,24 @@
     </template>
 
     <script>
+        class KnobConstant {
+            static get ELEMENT_ICON() {
+                return 'div';
+            }
+
+            static get ICON_DISTANCE_FROM_BASE_POINT() {
+                return 125;
+            }
+
+            static get ICON_CSS_CLASS_NAME() {
+                return 'item';
+            }
+
+            static get START_POSITION_RADIUS_OF_ICON() {
+                return 90;
+            }
+        }
+
         /**
          * `knob-element`
          * ui of like knob
@@ -81,6 +99,7 @@
          * @demo demo/index.html
          */
         class KnobElement extends Polymer.GestureEventListeners(Polymer.Element) {
+
             static get is () { return 'knob-element'; }
 
             static get properties () {
@@ -114,28 +133,39 @@
                     {icon: '../../../icons/png/006-facebook.png', name: 'snapchat'},
                 ];
 
-                const x1 = this.width / 2;
-                const y1 = this.height / 2;
-                const distance = 125;
+                const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
+                const distance         = KnobConstant.ICON_DISTANCE_FROM_BASE_POINT;
                 for (let i = 0; i < this.count; i++) {
                     const item = this.items[i];
 
+                    // set angle of parts
                     let angle = this.divide * i;
 
-                    angle = angle - 90;
+                    // update start position
+                    angle = angle - KnobConstant.START_POSITION_RADIUS_OF_ICON;
 
-                    const x2 = x1 + distance * Math.cos (angle * (Math.PI / 180));
-                    const y2 = y1 + distance * Math.sin (angle * (Math.PI / 180));
-                    const el = document.createElement('div');
-                    el.classList.add('item');
+                    // create element for icon
+                    const icon = document.createElement(KnobConstant.ELEMENT_ICON);
 
-                    el.style.position = 'absolute';
-                    el.style.backgroundImage = `url(${item['icon']})`;
-                    el.style.top  = `${y2}px`;
-                    el.style.left = `${x2}px`;
+                    // set class
+                    icon.classList.add(KnobConstant.ICON_CSS_CLASS_NAME);
 
-                    this.$.box.appendChild(el);
+                    // set style
+                    icon.style.position        = 'absolute';
+                    icon.style.backgroundImage = `url(${item['icon']})`;
+
+                    const x2 = base_x + distance * Math.cos (angle * (Math.PI / 180));
+                    const y2 = base_y + distance * Math.sin (angle * (Math.PI / 180));
+                    icon.style.top  = `${y2}px`;
+                    icon.style.left = `${x2}px`;
+
+                    // adapt icon
+                    this.$.box.appendChild(icon);
                 }
+            }
+
+            static getBasePointXY (width, height) {
+                return [width / 2, height / 2];
             }
 
             handleTrack (e) {
@@ -156,7 +186,7 @@
                         if (this.degree < 0) this.degree = 0;
 
                         // correction
-                        const half = this.divide / 2;
+                        const half      = this.divide / 2;
                         const remainder = this.degree % this.divide;
                         if (remainder > half) {
                             this.degree += half - (remainder - half);
@@ -164,9 +194,10 @@
                             this.degree -= remainder;
                         }
 
+                        // set past degree
                         this.start = this.degree;
 
-                        // Event
+                        // Fire event
                         this.dispatchEvent (new CustomEvent ('changed', {detail: {degree: this.degree}}));
 
                         break;
@@ -224,11 +255,11 @@
                 this.$.box.style.transform = `rotate(${val}deg)`;
 
                 // CSS
-                const els = Polymer.dom(this.root).querySelectorAll('.item');
-                for (let i = 0; i < els.length; i++) {
-                    const el = els[i];
+                const items = Polymer.dom(this.root).querySelectorAll('.item');
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
 
-                    el.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
+                    item.style.transform = `rotate(-${val}deg) translate(-50%, -50%)`;
                 }
             }
         }
