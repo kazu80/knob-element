@@ -36,7 +36,6 @@
                 width             : 300px;
                 height            : 300px;
                 background-color  : transparent;
-                background-image  : url("../../circle.png");
                 background-size   : contain;
                 background-repeat : no-repeat;
                 transition        : transform 200ms;
@@ -100,6 +99,11 @@
                         type: Number,
                         value: 125,
                     },
+                    knobBackgroundImage: {
+                        type: String,
+                        value: '',
+                        observer: '_changeBackgroundImage',
+                    },
                     menuCount        : {
                         type : Number,
                         value: 6,
@@ -118,17 +122,21 @@
             ready () {
                 super.ready ();
 
+                this.menuElements =
+                    this.shadowRoot
+                        .querySelector('slot')
+                        .assignedNodes({flatten: true})
+                        .filter(n => n.nodeType === Node.ELEMENT_NODE);
+
                 this.width  = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
                 this.rect   = this.$.box.getBoundingClientRect();
-                this.menusElement = Polymer.dom (this.slot).querySelectorAll ('knob-item');
                 this.start  = 0;
                 this.end    = 0;
                 this.divide = 360 / this.menuCount;
                 this.selected = 1;
                 this.position_visible = this.menuBorder;
-                this.position_disapper = this.menuBorder;
-
+                this.position_disapper = this.menuBorder - 1;
 
                 this.setMenus();
             }
@@ -137,8 +145,8 @@
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
                 const distance         = this.distance;
 
-                for (let i = 0; i < this.menusElement.length; i++) {
-                    const menu = this.menusElement[i];
+                for (let i = 0; i < this.menuElements.length; i++) {
+                    const menu = this.menuElements[i];
 
                     // set angle of parts
                     let angle = this.divide * i;
@@ -173,8 +181,8 @@
                         this.start = this.setRotate(e);
                         this.style.willChange = 'transform';
 
-                        for (let i = 0; i < this.menusElement.length; i++) {
-                            const menu = this.menusElement[i];
+                        for (let i = 0; i < this.menuElements.length; i++) {
+                            const menu = this.menuElements[i];
                             menu.style.willChange = 'transform';
                         }
 
@@ -186,7 +194,7 @@
                             this.end,
                             this.degree,
                             100,
-                            this.divide * this.menusElement.length,
+                            this.divide * this.menuElements.length,
                             0
                         );
                         this.start   = this.end;
@@ -194,8 +202,8 @@
                     case 'end':
                         this.style.willChange = 'inherit';
 
-                        for (let i = 0; i < this.menusElement.length; i++) {
-                            const menu = this.menusElement[i];
+                        for (let i = 0; i < this.menuElements.length; i++) {
+                            const menu = this.menuElements[i];
                             menu.style.willChange = 'inherit';
                         }
 
@@ -203,7 +211,7 @@
                         if (this.degree < 0) this.degree = 0;
 
                         // Max of range
-                        if (this.degree > this.divide * (this.menusElement.length - 1)) this.degree = this.divide * (this.menusElement.length - 1);
+                        if (this.degree > this.divide * (this.menuElements.length - 1)) this.degree = this.divide * (this.menuElements.length - 1);
 
                         // correction
                         const half      = this.divide / 2;
@@ -250,6 +258,10 @@
                 return Number (total);
             }
 
+            _changeBackgroundImage(val) {
+                this.$.box.style.backgroundImage = `url(${val})`;
+            }
+
             _changeDegree(val, old) {
                 // direction of box rotate
                 if (KnobConstant.DIRECTION_SWIPE === 'left') {
@@ -258,23 +270,20 @@
                 this.$.box.style.transform = `rotate(${val}deg)`;
 
                 // CSS
-                if (this.menusElement) {
+                if (this.menuElements) {
                     if (KnobConstant.DIRECTION_SWIPE === 'left') {
                         val = val * -1;
                     }
 
-                    for (let i = 0; i < this.menusElement.length; i++) {
-                        const menu = this.menusElement[i];
+                    for (let i = 0; i < this.menuElements.length; i++) {
+                        const menu = this.menuElements[i];
                         menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
 
-                        let display = 'block';
+                        let display = 'none';
 
-                        if (val + (this.position_disapper * this.divide) < i * this.divide) {
-                            display = 'none';
-                        }
-
-                        if (val - (this.position_disapper * this.divide) > i * this.divide) {
-                            display = 'none';
+                        if ((i * this.divide * -1) + val >= this.position_disapper * this.divide * -1 &&
+                            (i * this.divide * -1) + val <= this.position_disapper * this.divide) {
+                            display = 'block';
                         }
 
                         if (menu.style.display !== display) {
