@@ -87,20 +87,24 @@
 
             static get properties () {
                 return {
-                    degree: {
+                    degree           : {
                         type: Number,
                         value: 0,
                         observer: '_changeDegree',
                     },
-                    selected: {
+                    selected         : {
                         type: Number,
                         observer: '_changeSelected',
                     },
-                    distance: {
+                    distance         : {
                         type: Number,
                         value: 125,
                     },
-                    menuBorder: {
+                    menuCount        : {
+                        type : Number,
+                        value: 6,
+                    },
+                    menuBorder       : {
                         type: Number,
                         value: 3,
                     },
@@ -120,7 +124,7 @@
                 this.menusElement = Polymer.dom (this.slot).querySelectorAll ('.menu');
                 this.start  = 0;
                 this.end    = 0;
-                this.divide = 360 / this.menusElement.length;
+                this.divide = 360 / this.menuCount;
                 this.selected = 1;
                 this.position_visible = this.menuBorder;
                 this.position_disapper = this.menuBorder;
@@ -263,16 +267,18 @@
                         const menu = this.menusElement[i];
                         menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
 
-                        if (val > (i - this.position_visible) * this.divide) {
-                            menu.style.display = 'block';
+                        let display = 'block';
+
+                        if (val + (this.position_disapper * this.divide) < i * this.divide) {
+                            display = 'none';
                         }
 
-                        if (val > (i + this.position_disapper - 1) * this.divide) {
-                            menu.style.display = 'none';
+                        if (val - (this.position_disapper * this.divide) > i * this.divide) {
+                            display = 'none';
                         }
 
-                        if ((val + (i + this.position_visible) * this.divide) < (i + this.position_disapper) * this.divide) {
-                            menu.style.display = 'none';
+                        if (menu.style.display !== display) {
+                            menu.style.display = display;
                         }
                     }
                 }
@@ -281,25 +287,6 @@
             _changeSelected(val, old) {
                 if (val !== old) {
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
-
-                    //
-                    /*
-                    for (let i = 0; i < this.menusElement.length; i++) {
-                        const menu = this.menusElement[i];
-
-                        if (i < this.position_visible + (val - 1)) {
-                            menu.style.display = 'block';
-                        }
-
-                        if (i < val - this.position_disapper ) {
-                            menu.style.display = 'none';
-                        }
-
-                        if (i > val + this.position_disapper - 2) {
-                            menu.style.display = 'none';
-                        }
-                    }
-                    */
                 }
             }
 
