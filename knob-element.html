@@ -24,9 +24,10 @@
             }
 
             .wrapper .box__wrapper {
-                position : relative;
-                padding  : 150px;
-                overflow : hidden;
+                position   : relative;
+                padding    : 150px;
+                overflow   : hidden;
+                transition : transform 200ms;
             }
 
             .wrapper .box__wrapper .box {
@@ -48,7 +49,7 @@
                 <div class="y">y : [[y]]</div>
                 <div class="y">degree : <input type="text" size="4" value="{{degree::input}}" /></div>
             </div>
-            <div class="box__wrapper">
+            <div id="frame" class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">
                     <slot></slot>
                 </div>
@@ -179,16 +180,20 @@
                 switch(e.detail.state) {
                     case 'start':
                         this.start = this.setRotate(e);
-                        this.style.willChange = 'transform';
+                        this.$.box.style.willChange = 'transform';
+                        this.$.frame.style.willChange = 'transform';
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
                             menu.style.willChange = 'transform';
                         }
 
+                        //
+                        this.$.frame.style.transform = 'scale(0.98)';
+
                         break;
                     case 'track':
-                        this.end     = this.setRotate(e);
+                        this.end = this.setRotate (e);
                         this.degree = KnobElement.filterDegree (
                             this.start,
                             this.end,
@@ -197,10 +202,19 @@
                             this.divide * this.menuElements.length,
                             0
                         );
-                        this.start   = this.end;
+                        this.start = this.end;
+
+                        //
+                        this.$.frame.style.transform = 'scale(0.98)';
+
                         break;
                     case 'end':
-                        this.style.willChange = 'inherit';
+                        //
+                        this.$.frame.style.transform = 'scale(1)';
+
+                        //
+                        this.$.box.style.willChange = 'inherit';
+                        this.$.frame.style.willChange = 'inherit';
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
