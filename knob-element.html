@@ -121,7 +121,7 @@
                 this.width  = this.$.box.clientWidth;
                 this.height = this.$.box.clientHeight;
                 this.rect   = this.$.box.getBoundingClientRect();
-                this.menusElement = Polymer.dom (this.slot).querySelectorAll ('.menu');
+                this.menusElement = Polymer.dom (this.slot).querySelectorAll ('knob-item');
                 this.start  = 0;
                 this.end    = 0;
                 this.divide = 360 / this.menuCount;
