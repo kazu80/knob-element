@@ -8,11 +8,16 @@
                 display : block;
             }
 
-            .wrapper {}
-            .wrapper .debug__wrapper {
-                display: flex;
+            .wrapper {
+                position: relative;
+            }
+
+            .debug__wrapper {
+                position: relative;
+                /* display: flex; */
                 justify-content: space-around;
                 margin-bottom: 20px;
+                display: none;
             }
 
             @media (max-width : 767px) {
@@ -26,7 +31,6 @@
             .wrapper .box__wrapper {
                 position   : relative;
                 padding    : 150px;
-                overflow   : hidden;
                 transition : transform 200ms;
             }
 
@@ -41,14 +45,28 @@
                 background-repeat : no-repeat;
                 transition        : transform 200ms;
             }
+
+            .target-frame {
+                position: absolute;
+                top : -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 70px;
+                height: 90px;
+                border: 3px solid #dd1111;
+                border-radius: 8px;
+                z-index: 100;
+            }
         </style>
 
+        <div class="debug__wrapper">
+            <div class="x">x : [[x]]</div>
+            <div class="y">y : [[y]]</div>
+            <div class="y">degree : <input type="text" size="4" value="{{degree::input}}" /></div>
+        </div>
+
         <div class="wrapper">
-            <div class="debug__wrapper">
-                <div class="x">x : [[x]]</div>
-                <div class="y">y : [[y]]</div>
-                <div class="y">degree : <input type="text" size="4" value="{{degree::input}}" /></div>
-            </div>
+            <div class="target-frame"></div>
             <div id="frame" class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">
                     <slot></slot>
@@ -157,18 +175,15 @@
 
                     const x2 = base_x + distance * Math.cos (angle * (Math.PI / 180));
                     const y2 = base_y + distance * Math.sin (angle * (Math.PI / 180));
-                    menu.style.top  = `${y2}px`;
-                    menu.style.left = `${x2}px`;
+                    menu.setAttribute('item-top', y2);
+                    menu.setAttribute('item-left', x2);
 
                     // set visible
                     if (i < this.position_visible) {
-                        menu.style.display = 'block';
+                        menu.setAttribute('item-display', 'block');
                     } else {
-                        menu.style.display = 'none';
+                        menu.setAttribute('item-display', 'none');
                     }
-
-                    // adapt icon
-                    this.$.box.appendChild(menu);
                 }
             }
 
@@ -185,7 +200,7 @@
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
-                            menu.style.willChange = 'transform';
+                            menu.setAttribute('item-will-change', 'transform');
                         }
 
                         //
@@ -218,7 +233,7 @@
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
-                            menu.style.willChange = 'inherit';
+                            menu.setAttribute('item-will-change', 'inherit');
                         }
 
                         // Out of range
@@ -291,7 +306,7 @@
 
                     for (let i = 0; i < this.menuElements.length; i++) {
                         const menu = this.menuElements[i];
-                        menu.style.transform = `rotate(${val}deg) translate(-50%, -50%)`;
+                        menu.setAttribute('item-transform', `rotate(${val}deg) translate(-50%, -50%)`);
 
                         let display = 'none';
 
@@ -301,7 +316,7 @@
                         }
 
                         if (menu.style.display !== display) {
-                            menu.style.display = display;
+                            menu.setAttribute('item-display', display);
                         }
                     }
                 }
@@ -310,6 +325,14 @@
             _changeSelected(val, old) {
                 if (val !== old) {
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
+                }
+
+                for (let i = 0; i < this.menuElements.length; i++) {
+                    const menu = this.menuElements[i];
+                    menu.setAttribute('item-is-selected', false);
+                    if (val === (i + 1)) {
+                        menu.setAttribute('item-is-selected', true);
+                    }
                 }
             }
 

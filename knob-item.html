@@ -5,20 +5,18 @@
         <style>
             :host {
                 position          : absolute;
-                width             : 40px;
-                height            : 40px;
                 background-size   : cover;
                 background-repeat : no-repeat;
                 transform         : translate(-50%, -50%);
                 transform-origin  : 0 0;
-                transition        : transform 200ms;
+                transition        : all 200ms;
             }
 
             .title {
                 display: inline-block;
                 position: relative;
                 left: 50%;
-                bottom: -45px;
+                bottom: -55px;
                 transform: translateX(-50%);
             }
         </style>
@@ -43,6 +41,32 @@
                     },
                     title: {
                         type: String,
+                    },
+                    itemTop: {
+                        type: Number,
+                    },
+                    itemLeft: {
+                        type: Number,
+                    },
+                    itemDisplay: {
+                        type: String,
+                        observer: '_setDisplay'
+                    },
+                    itemWillChange: {
+                        type: String,
+                        value: 'inherit',
+                        notify: true,
+                        observer: '_setWillChange'
+                    },
+                    itemTransform: {
+                        type: String,
+                        notify: true,
+                        observer: '_setTransform'
+                    },
+                    itemIsSelected: {
+                        type: String,
+                        notify: true,
+                        observer: '_setIsSelected'
                     }
                 }
             }
@@ -50,7 +74,42 @@
             ready () {
                 super.ready ();
 
+                this.style.width = this.width;
+                this.style.height = this.height;
+                this.style.top = `${this.itemTop}px`;
+                this.style.left = `${this.itemLeft}px`;
                 this.style.backgroundImage = `url(${this.image})`;
+            }
+
+            _setWillChange (val) {
+                this.style.willChange = val;
+            }
+
+            _setTransform (val) {
+                if (val) {
+                    this.style.transform = val;
+                }
+            }
+
+            _setDisplay (val) {
+                this.style.display = val;
+            }
+
+            _setIsSelected(selected, old) {
+
+                console.log(this.itemIsSelected);
+
+                if (selected === 'true') {
+                    this.style.width = '50px';
+                    this.style.height = '50px';
+                    this.classList.add('active');
+                }
+                else if (selected !== old) {
+                    this.style.top = `${this.itemTop}px`;
+                    this.style.width = this.width;
+                    this.style.height = this.height;
+                    this.classList.remove('active');
+                }
             }
         }
         window.customElements.define (KnobItem.is, KnobItem);
