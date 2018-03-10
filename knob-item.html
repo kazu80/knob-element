@@ -13,11 +13,12 @@
             }
 
             .title {
-                display: inline-block;
-                position: relative;
-                left: 50%;
-                bottom: -55px;
-                transform: translateX(-50%);
+                display   : inline-block;
+                position  : relative;
+                left      : 50%;
+                bottom    : -55px;
+                transform : translateX(-50%);
+                font-size : 16px;
             }
         </style>
         <div class="title">{{title}}</div>
@@ -96,9 +97,6 @@
             }
 
             _setIsSelected(selected, old) {
-
-                console.log(this.itemIsSelected);
-
                 if (selected === 'true') {
                     this.style.width = '50px';
                     this.style.height = '50px';
