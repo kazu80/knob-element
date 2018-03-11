@@ -202,7 +202,7 @@
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
-                            menu.setAttribute('item-will-change', 'transform');
+                            menu.setAttribute ('item-will-change', 'auto');
                         }
 
                         //
@@ -306,12 +306,22 @@
                         val = val * -1;
                     }
 
+                    //
+                    const selected = val / this.divide;
                     for (let i = 0; i < this.menuElements.length; i++) {
                         const menu = this.menuElements[i];
+
+                        //
+                        if ((i - 0.2) < selected && (i + 0.2) > selected) {
+                            menu.setAttribute ('item-is-selected', true);
+                        } else {
+                            menu.setAttribute ('item-is-selected', false);
+                        }
+
+                        //
                         menu.setAttribute('item-transform', `rotate(${val}deg) translate(-50%, -50%)`);
 
                         let display = 'none';
-
                         if ((i * this.divide * -1) + val >= this.position_disapper * this.divide * -1 &&
                             (i * this.divide * -1) + val <= this.position_disapper * this.divide) {
                             display = 'block';

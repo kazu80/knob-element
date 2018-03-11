@@ -10,6 +10,7 @@
                 transform         : translate(-50%, -50%);
                 transform-origin  : 0 0;
                 transition        : all 200ms;
+                z-index           : 200;
             }
 
             .title {
@@ -80,6 +81,12 @@
                 this.style.top = `${this.itemTop}px`;
                 this.style.left = `${this.itemLeft}px`;
                 this.style.backgroundImage = `url(${this.image})`;
+
+                if (this.itemIsSelected === 'true') {
+                    this.style.width = '50px';
+                    this.style.height = '50px';
+                    this.classList.add ('active');
+                }
             }
 
             _setWillChange (val) {
