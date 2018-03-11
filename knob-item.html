@@ -4,25 +4,36 @@
     <template>
         <style>
             :host {
-                position          : absolute;
-                background-size   : cover;
-                background-repeat : no-repeat;
-                transform         : translate(-50%, -50%);
-                transform-origin  : 0 0;
-                transition        : all 200ms;
-                z-index           : 200;
+                position         : absolute;
+                z-index          : 200;
+                transform-origin : 0 0;
+                transition       : all 200ms;
+                transform        : translate(-50%, -50%);
             }
 
-            .title {
+            .menu-wrapper {
+                display        : flex;
+                flex-direction : column;
+                align-items    : center;
+            }
+
+            .menu-wrapper .menu {
+                display           : inline-block;
+                margin-bottom     : 5px;
+                background-size   : cover;
+                background-repeat : no-repeat;
+            }
+
+            .menu-wrapper .title {
                 display   : inline-block;
                 position  : relative;
-                left      : 50%;
-                bottom    : -55px;
-                transform : translateX(-50%);
                 font-size : 16px;
             }
         </style>
-        <div class="title">{{title}}</div>
+        <div class="menu-wrapper">
+            <div id="menu" class="menu"></div>
+            <div class="title">{{title}}</div>
+        </div>
     </template>
     <script>
         class KnobItem extends Polymer.GestureEventListeners(Polymer.Element) {
@@ -76,15 +87,15 @@
             ready () {
                 super.ready ();
 
-                this.style.width = this.width;
-                this.style.height = this.height;
+                this.$.menu.style.width = this.width;
+                this.$.menu.style.height = this.height;
                 this.style.top = `${this.itemTop}px`;
                 this.style.left = `${this.itemLeft}px`;
-                this.style.backgroundImage = `url(${this.image})`;
+                this.$.menu.style.backgroundImage = `url(${this.image})`;
 
                 if (this.itemIsSelected === 'true') {
-                    this.style.width = '50px';
-                    this.style.height = '50px';
+                    this.$.menu.style.width = '50px';
+                    this.$.menu.style.height = '50px';
                     this.classList.add ('active');
                 }
             }
@@ -105,14 +116,14 @@
 
             _setIsSelected(selected, old) {
                 if (selected === 'true') {
-                    this.style.width = '50px';
-                    this.style.height = '50px';
+                    this.$.menu.style.width = '50px';
+                    this.$.menu.style.height = '50px';
                     this.classList.add('active');
                 }
                 else if (selected !== old) {
-                    this.style.top = `${this.itemTop}px`;
-                    this.style.width = this.width;
-                    this.style.height = this.height;
+                    this.$.menu.style.top = `${this.itemTop}px`;
+                    this.$.menu.style.width = this.width;
+                    this.$.menu.style.height = this.height;
                     this.classList.remove('active');
                 }
             }
