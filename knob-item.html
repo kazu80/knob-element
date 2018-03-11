@@ -7,8 +7,8 @@
                 position         : absolute;
                 z-index          : 200;
                 transform-origin : 0 0;
-                transition       : all 200ms;
                 transform        : translate(-50%, -50%);
+                transition       : all 200ms;
             }
 
             .menu-wrapper {
@@ -22,6 +22,7 @@
                 margin-bottom     : 5px;
                 background-size   : cover;
                 background-repeat : no-repeat;
+                transition        : all 200ms;
             }
 
             .menu-wrapper .title {
@@ -86,7 +87,6 @@
 
             ready () {
                 super.ready ();
-
                 this.$.menu.style.width = this.width;
                 this.$.menu.style.height = this.height;
                 this.style.top = `${this.itemTop}px`;
@@ -94,8 +94,7 @@
                 this.$.menu.style.backgroundImage = `url(${this.image})`;
 
                 if (this.itemIsSelected === 'true') {
-                    this.$.menu.style.width = '50px';
-                    this.$.menu.style.height = '50px';
+                    this.$.menu.style.transform = 'scale(1.2)';
                     this.classList.add ('active');
                 }
             }
@@ -116,14 +115,12 @@
 
             _setIsSelected(selected, old) {
                 if (selected === 'true') {
-                    this.$.menu.style.width = '50px';
-                    this.$.menu.style.height = '50px';
+                    this.$.menu.style.transform = 'scale(1.2)';
                     this.classList.add('active');
                 }
                 else if (selected !== old) {
                     this.$.menu.style.top = `${this.itemTop}px`;
-                    this.$.menu.style.width = this.width;
-                    this.$.menu.style.height = this.height;
+                    this.$.menu.style.transform = 'scale(1)';
                     this.classList.remove('active');
                 }
             }
