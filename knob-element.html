@@ -68,8 +68,8 @@
         <div class="wrapper">
             <div class="target-frame"></div>
             <div id="frame" class="box__wrapper">
-                <div id="box" class="box" on-track="handleTrack" style="background-image: url('[[knobBackgroundImage]]')">
-                    <img id="background" class="background-image" src=[[knobBackgroundImage]]>
+                <div id="box" class="box" on-track="handleTrack">
+                    <img id="background" class="background-image">
                     <slot></slot>
                 </div>
             </div>
@@ -292,7 +292,8 @@
             }
 
             _changeBackgroundImage(val) {
-                // this.$.box.style.backgroundImage = `url(${val})`;
+                this.$.box.style.backgroundImage = `url(${val})`;
+                this.$.background.setAttribute('src', val);
             }
 
             _changeDegree(val, old) {
