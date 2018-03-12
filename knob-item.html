@@ -91,7 +91,7 @@
                 this.$.menu.style.height = this.height;
                 this.style.top = `${this.itemTop}px`;
                 this.style.left = `${this.itemLeft}px`;
-                this.$.menu.style.backgroundImage = `url(${this.image})`;
+                this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
                     this.$.menu.style.transform = 'scale(1.2)';
