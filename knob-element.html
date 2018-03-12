@@ -43,7 +43,6 @@
 
             .wrapper .box__wrapper .box .background-image {
                 width      : 100%;
-                visibility : hidden;
             }
 
             .target-frame {
@@ -66,7 +65,7 @@
         </div>
 
         <div class="wrapper">
-            <div class="target-frame"></div>
+            <!-- <div class="target-frame"></div> -->
             <div id="frame" class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">
                     <img id="background" class="background-image">
@@ -157,6 +156,9 @@
                 this.position_visible = this.menuBorder;
                 this.position_disapper = this.menuBorder - 1;
 
+                this.smooth = 0;
+                this.smoothUp = 1.5;
+
                 this.setMenus();
             }
 
@@ -219,15 +221,22 @@
                             this.degree,
                             100,
                             this.divide * this.menuElements.length,
-                            0
+                            0,
+                            this.smooth
                         );
                         this.start = this.end;
+
+                        //
+                        this.smooth += this.smoothUp;
 
                         //
                         this.$.frame.style.transform = 'scale(0.98)';
 
                         break;
                     case 'end':
+                        //
+                        this.smooth = 0;
+
                         //
                         this.$.frame.style.transform = 'scale(1)';
 
@@ -268,7 +277,7 @@
                 return (this.degree / this.divide) + 1;
             }
 
-            static filterDegree (start, end, total, filter, max, min) {
+            static filterDegree (start, end, total, filter, max, min, smooth) {
                 //
                 let move = end - start;
 
@@ -279,10 +288,12 @@
 
                 // limiter
                 if (Math.abs (move) < filter) {
-                    total = Number (total) + move;
 
                     // smoother
-                    total = this.smoother (total);
+                    move = this.smoother (move, smooth);
+
+                    //
+                    total = Number (total) + move;
 
                     // bar
                     total = this.bar (total, max, min);
@@ -292,7 +303,7 @@
             }
 
             _changeBackgroundImage(val) {
-                this.$.box.style.backgroundImage = `url(${val})`;
+                // this.$.box.style.backgroundImage = `url(${val})`;
                 this.$.background.setAttribute('src', val);
             }
 
@@ -351,9 +362,14 @@
                 }
             }
 
-            static smoother (val) {
-                val += 1.5;
-                return val;
+            static smoother (move, smooth) {
+                if (move < 0) {
+                    move += (smooth * -1);
+                } else {
+                    move += smooth;
+                }
+
+                return move;
             }
 
             static bar (val, max, min) {
