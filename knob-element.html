@@ -17,7 +17,6 @@
                 /* display: flex; */
                 justify-content: space-around;
                 margin-bottom: 20px;
-                display: none;
             }
 
             @media (max-width : 767px) {
@@ -35,13 +34,16 @@
             }
 
             .wrapper .box__wrapper .box {
-                position   : relative;
-                font-size  : 0;
-                transition : transform 200ms;
+                position          : relative;
+                font-size         : 0;
+                background-size   : contain;
+                background-repeat : no-repeat;
+                transition        : transform 200ms;
             }
 
             .wrapper .box__wrapper .box .background-image {
-                width : 100%;
+                width      : 100%;
+                visibility : hidden;
             }
 
             .target-frame {
@@ -66,7 +68,7 @@
         <div class="wrapper">
             <div class="target-frame"></div>
             <div id="frame" class="box__wrapper">
-                <div id="box" class="box" on-track="handleTrack">
+                <div id="box" class="box" on-track="handleTrack" style="background-image: url('[[knobBackgroundImage]]')">
                     <img id="background" class="background-image" src=[[knobBackgroundImage]]>
                     <slot></slot>
                 </div>

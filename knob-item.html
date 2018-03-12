@@ -57,10 +57,14 @@
                         type: String,
                     },
                     itemTop: {
-                        type: Number,
+                        type    : Number,
+                        notify  : true,
+                        observer: '_setTop'
                     },
                     itemLeft: {
-                        type: Number,
+                        type    : Number,
+                        notify  : true,
+                        observer: '_setLeft'
                     },
                     itemDisplay: {
                         type: String,
@@ -89,8 +93,6 @@
                 super.ready ();
                 this.$.menu.style.width = this.width;
                 this.$.menu.style.height = this.height;
-                this.style.top = `${this.itemTop}px`;
-                this.style.left = `${this.itemLeft}px`;
                 this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
@@ -123,6 +125,14 @@
                     this.$.menu.style.transform = 'scale(1)';
                     this.classList.remove('active');
                 }
+            }
+
+            _setTop (val) {
+                this.style.top = `${val}px`;
+            }
+
+            _setLeft (val) {
+                this.style.left = `${val}px`;
             }
         }
         window.customElements.define (KnobItem.is, KnobItem);
