@@ -17,6 +17,7 @@
                 /* display: flex; */
                 justify-content: space-around;
                 margin-bottom: 20px;
+                display: none;
             }
 
             @media (max-width : 767px) {
@@ -133,6 +134,14 @@
                     menuStartPosition: {
                         type: Number,
                         value: 90,
+                    },
+                    knobWidth : {
+                        type: Number,
+                        value: 0,
+                    },
+                    knobHeight : {
+                        type: Number,
+                        value: 0,
                     }
                 };
             }
@@ -146,8 +155,9 @@
                         .assignedNodes({flatten: true})
                         .filter(n => n.nodeType === Node.ELEMENT_NODE);
 
-                this.width  = this.$.box.clientWidth;
-                this.height = this.$.box.clientWidth;
+                this.width  = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobWidth;
+                this.height = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobHeight;
+
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
