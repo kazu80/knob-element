@@ -165,6 +165,10 @@
             setMenus () {
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
 
+                if (base_x === 0 || base_y === 0) {
+                    console.warn('Not find base point!');
+                }
+
                 for (let i = 0; i < this.menuElements.length; i++) {
                     const menu = this.menuElements[i];
 
@@ -173,7 +177,7 @@
 
                     // distance
                     if (!this.distance) {
-                        this.distance = base_y * 0.8;
+                        this.distance = base_y * 0.7;
                     }
 
                     // update start position
@@ -183,6 +187,10 @@
 
                     menu.setAttribute('item-top', y2);
                     menu.setAttribute('item-left', x2);
+
+                    // update menu icon size
+                    menu.setAttribute('item-width', `${this.distance * 0.55}px`);
+                    menu.setAttribute('item-height', `${this.distance * 0.55}px`);
 
                     // set visible
                     if (i < this.position_visible) {

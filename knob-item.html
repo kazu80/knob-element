@@ -45,11 +45,11 @@
                     image: {
                         type: String,
                     },
-                    width: {
+                    itemWidth: {
                         type: String,
                         value: '40px',
                     },
-                    height: {
+                    itemHeight: {
                         type: String,
                         value: '40px',
                     },
@@ -91,12 +91,12 @@
 
             ready () {
                 super.ready ();
-                this.$.menu.style.width = this.width;
-                this.$.menu.style.height = this.height;
+                this.$.menu.style.width = this.itemWidth;
+                this.$.menu.style.height = this.itemHeight;
                 this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
-                    this.$.menu.style.transform = 'scale(1.2)';
+                    this.$.menu.style.transform = 'scale(1.25)';
                     this.classList.add ('active');
                 }
             }
