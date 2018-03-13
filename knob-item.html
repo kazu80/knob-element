@@ -6,9 +6,9 @@
             :host {
                 position         : absolute;
                 z-index          : 200;
-                transform-origin : 0 0;
                 transform        : translate(-50%, -50%);
                 transition       : all 200ms;
+                transform-origin : 0 0;
             }
 
             .menu-wrapper {
@@ -19,19 +19,34 @@
 
             .menu-wrapper .menu {
                 display           : inline-block;
-                margin-bottom     : 5px;
+                margin-bottom     : 10px;
                 background-size   : cover;
                 background-repeat : no-repeat;
                 transition        : all 200ms;
             }
 
             .menu-wrapper .title {
-                display   : inline-block;
+                display: none;
                 position  : relative;
                 font-size : 16px;
+
             }
+
+            .menu-wrapper.active {
+
+            }
+
+            .menu-wrapper.active .menu {
+                transform: scale(1.2);
+
+            }
+
+            .menu-wrapper.active .title {
+                display   : inline-block;
+            }
+
         </style>
-        <div class="menu-wrapper">
+        <div id="wrapper" class="menu-wrapper">
             <div id="menu" class="menu"></div>
             <div class="title">{{title}}</div>
         </div>
@@ -96,8 +111,7 @@
                 this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
-                    this.$.menu.style.transform = 'scale(1.25)';
-                    this.classList.add ('active');
+                    this.$.wrapper.classList.add('active');
                 }
             }
 
@@ -117,13 +131,10 @@
 
             _setIsSelected(selected, old) {
                 if (selected === 'true') {
-                    this.$.menu.style.transform = 'scale(1.2)';
-                    this.classList.add('active');
+                    this.$.wrapper.classList.add('active');
                 }
                 else if (selected !== old) {
-                    this.$.menu.style.top = `${this.itemTop}px`;
-                    this.$.menu.style.transform = 'scale(1)';
-                    this.classList.remove('active');
+                    this.$.wrapper.classList.remove('active');
                 }
             }
 
