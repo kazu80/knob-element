@@ -167,7 +167,7 @@
                 this.position_disapper = this.menuBorder - 1;
 
                 this.smooth = 0;
-                this.smoothUp = 1.5;
+                this.smoothUp = 0.5;
 
                 this.setMenus();
             }
@@ -308,7 +308,9 @@
                 if (Math.abs (move) < filter) {
 
                     // smoother
-                    move = this.smoother (move, smooth);
+                    if (Math.abs (move) > 1) {
+                        move = this.smoother (move, smooth);
+                    }
 
                     //
                     total = Number (total) + move;

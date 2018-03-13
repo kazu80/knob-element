@@ -19,7 +19,7 @@
 
             .menu-wrapper .menu {
                 display           : inline-block;
-                margin-bottom     : 10px;
+                margin-bottom     : 30%;
                 background-size   : cover;
                 background-repeat : no-repeat;
                 transition        : all 200ms;
@@ -62,11 +62,15 @@
                     },
                     itemWidth: {
                         type: String,
+                        notify  : true,
                         value: '40px',
+                        observer: '_setMenuWidth'
                     },
                     itemHeight: {
                         type: String,
+                        notify  : true,
                         value: '40px',
+                        observer: '_setMenuHeight'
                     },
                     title: {
                         type: String,
@@ -106,13 +110,20 @@
 
             ready () {
                 super.ready ();
-                this.$.menu.style.width = this.itemWidth;
-                this.$.menu.style.height = this.itemHeight;
+
                 this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
                     this.$.wrapper.classList.add('active');
                 }
+            }
+
+            _setMenuWidth (val) {
+                this.$.menu.style.width = val;
+            }
+
+            _setMenuHeight(val) {
+                this.$.menu.style.height = val;
             }
 
             _setWillChange (val) {
