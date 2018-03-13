@@ -40,10 +40,13 @@
                 background-size   : contain;
                 background-repeat : no-repeat;
                 transition        : transform 200ms;
+                user-select       : none;
             }
 
             .wrapper .box__wrapper .box .background-image {
-                width      : 100%;
+                width       : 100%;
+                user-select : none;
+                visibility  : hidden;
             }
 
             .target-frame {
@@ -323,7 +326,7 @@
             }
 
             _changeBackgroundImage(val) {
-                // this.$.box.style.backgroundImage = `url(${val})`;
+                this.$.box.style.backgroundImage = `url(${val})`;
                 this.$.background.setAttribute('src', val);
             }
 
