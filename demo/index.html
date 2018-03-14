@@ -43,6 +43,12 @@
                     knob.addEventListener ('changed', (e) => {
                         console.log ('changed', e.detail.selected);
                     });
+                    knob.addEventListener ('touch-start', (e) => {
+                        console.log ('touch-start');
+                    });
+                    knob.addEventListener ('touch-end', (e) => {
+                        console.log ('touch-end');
+                    });
                 </script>
             </template>
         </demo-snippet>

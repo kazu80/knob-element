@@ -233,6 +233,9 @@
                         //
                         this.$.frame.style.transform = 'scale(0.98)';
 
+                        //
+                        this.dispatchEvent (new CustomEvent ('touch-start'));
+
                         break;
                     case 'track':
                         this.end = this.setRotate (e);
@@ -290,6 +293,10 @@
 
                         // set selected
                         this.selected = this.Degree2Selected();
+
+                        //
+                        this.dispatchEvent (new CustomEvent ('touch-end'));
+
                         break;
                 }
             }
