@@ -13,6 +13,8 @@
     <link rel="import" href="../knob-element.html">
     <link rel="import" href="../knob-item.html">
 
+    <link rel="import" href="../../audio-player/audio-player.html">
+
     <custom-style>
         <style is="custom-style" include="demo-pages-shared-styles">
         </style>
@@ -38,17 +40,70 @@
                     <knob-item class="menu" image="icons/png/003-snapchat.png" title="snapchat"></knob-item>
                     <knob-item class="menu" image="icons/png/004-github.png" title="github"></knob-item>
                 </knob-element>
+
+                <audio-player id="audio" src="../../audio-player/demo/sound.mp3" button></audio-player>
+                <button id="foo">foo</button>
+
                 <script>
+                    const audio = document.getElementById ('audio');
+                    const button = document.getElementById ('foo');
+
+                    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                    const context = new AudioContext ();
+
+                    let request;
+                    let source;
+
+                    button.addEventListener ('click', (e) => {
+                        console.log ('click!!!!');
+                        audio._play ();
+                    });
+
                     const knob = document.getElementById ('knob');
                     knob.addEventListener ('changed', (e) => {
                         console.log ('changed', e.detail.selected);
+
+                        context.createBufferSource ().start (0);
+
+                        request = new XMLHttpRequest ();
+
+                        switch (e.detail.selected % 2) {
+                            case 0:
+                                request.open ('GET', '../../audio-player/demo/snares.wav', true);
+                                break;
+                            case 1:
+                                request.open ('GET', '../../audio-player/demo/sound.mp3', true);
+                                break;
+                        }
+
+                        request.responseType = 'arraybuffer';
+                        request.onload = completeOnLoad;
+                        request.send ();
+
+                        // audio._specialPlay();
+
                     });
                     knob.addEventListener ('touch-start', (e) => {
                         console.log ('touch-start');
+                        audio._stop ();
                     });
                     knob.addEventListener ('touch-end', (e) => {
                         console.log ('touch-end');
                     });
+
+                    function completeOnLoad () {
+
+                        source = context.createBufferSource ();
+
+                        // オーディオをデコード
+                        context.decodeAudioData (request.response, function (buf) {
+                            source.buffer = buf;
+                            source.loop = false;
+                            source.connect (context.destination);
+                            source.start (0);
+                        });
+
+                    }
                 </script>
             </template>
         </demo-snippet>
