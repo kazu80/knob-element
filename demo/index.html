@@ -41,51 +41,38 @@
                     <knob-item class="menu" image="icons/png/004-github.png" title="github"></knob-item>
                 </knob-element>
 
-                <audio-player id="audio" src="../../audio-player/demo/sound.mp3" button></audio-player>
+                <audio-player id="audio" src="../../audio-player/demo/sound.mp3"></audio-player>
+                <audio-player id="audio02" src="../../audio-player/demo/sound02.mp3"></audio-player>
                 <button id="foo">foo</button>
 
                 <script>
                     const audio = document.getElementById ('audio');
+                    const audio2 = document.getElementById ('audio02');
                     const button = document.getElementById ('foo');
-
-                    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                    const context = new AudioContext ();
-
-                    let request;
-                    let source;
 
                     button.addEventListener ('click', (e) => {
                         console.log ('click!!!!');
-                        audio._play ();
+                        audio._silent ();
+                        audio2._silent ();
                     });
 
                     const knob = document.getElementById ('knob');
                     knob.addEventListener ('changed', (e) => {
                         console.log ('changed', e.detail.selected);
 
-                        context.createBufferSource ().start (0);
-
-                        request = new XMLHttpRequest ();
-
                         switch (e.detail.selected % 2) {
                             case 0:
-                                request.open ('GET', '../../audio-player/demo/snares.wav', true);
+                                audio._play ();
                                 break;
                             case 1:
-                                request.open ('GET', '../../audio-player/demo/sound.mp3', true);
+                                audio2._play ();
                                 break;
                         }
-
-                        request.responseType = 'arraybuffer';
-                        request.onload = completeOnLoad;
-                        request.send ();
-
-                        // audio._specialPlay();
-
                     });
                     knob.addEventListener ('touch-start', (e) => {
                         console.log ('touch-start');
                         audio._stop ();
+                        audio2._stop ();
                     });
                     knob.addEventListener ('touch-end', (e) => {
                         console.log ('touch-end');
