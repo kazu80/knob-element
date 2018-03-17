@@ -43,29 +43,66 @@
 
                 <audio-player id="audio" src="../../audio-player/demo/sound.mp3"></audio-player>
                 <audio-player id="audio02" src="../../audio-player/demo/sound02.mp3"></audio-player>
-                <button id="foo">foo</button>
+                <audio-player id="audio03" src="./audio03.wav"></audio-player>
+                <audio-player id="audio04" src="./audio04.wav"></audio-player>
+                <audio-player id="audio05" src="./audio05.wav"></audio-player>
+                <audio-player id="audio06" src="./audio06.wav"></audio-player>
+                <audio-player id="audio07" src="./audio07.wav"></audio-player>
+                <audio-player id="audio08" src="./audio08.wav"></audio-player>
 
                 <script>
                     const audio = document.getElementById ('audio');
                     const audio2 = document.getElementById ('audio02');
-                    const button = document.getElementById ('foo');
+                    const audio3 = document.getElementById ('audio03');
+                    const audio4 = document.getElementById ('audio04');
+                    const audio5 = document.getElementById ('audio05');
+                    const audio6 = document.getElementById ('audio06');
+                    const audio7 = document.getElementById ('audio07');
+                    const audio8 = document.getElementById ('audio08');
 
-                    button.addEventListener ('click', (e) => {
-                        console.log ('click!!!!');
+                    /**
+                     * Nob
+                     */
+                    const knob = document.getElementById ('knob');
+
+                    knob.addEventListener ('touchstart', (e) => {
                         audio._silent ();
                         audio2._silent ();
+                        audio3._silent ();
+                        audio4._silent ();
+                        audio5._silent ();
+                        audio6._silent ();
+                        audio7._silent ();
+                        audio8._silent ();
                     });
 
-                    const knob = document.getElementById ('knob');
                     knob.addEventListener ('changed', (e) => {
                         console.log ('changed', e.detail.selected);
 
-                        switch (e.detail.selected % 2) {
+                        switch (e.detail.selected % 8) {
                             case 0:
                                 audio._play ();
                                 break;
                             case 1:
                                 audio2._play ();
+                                break;
+                            case 2:
+                                audio3._play ();
+                                break;
+                            case 3:
+                                audio4._play ();
+                                break;
+                            case 4:
+                                audio5._play ();
+                                break;
+                            case 5:
+                                audio6._play ();
+                                break;
+                            case 6:
+                                audio7._play ();
+                                break;
+                            case 7:
+                                audio8._play ();
                                 break;
                         }
                     });
