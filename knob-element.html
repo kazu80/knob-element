@@ -156,7 +156,7 @@
                     this.shadowRoot
                         .querySelector('slot')
                         .assignedNodes({flatten: true})
-                        .filter(n => n.nodeType === Node.ELEMENT_NODE);
+                        .filter (n => n.nodeName === 'KNOB-ITEM');
 
                 this.width  = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobWidth;
                 this.height = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobHeight;

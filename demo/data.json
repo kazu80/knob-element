@@ -1,0 +1,26 @@
+[
+  {
+    "image": "icons/png/001-twitch.png",
+    "title": "twitch"
+  },
+  {
+    "image": "icons/png/002-skype.png",
+    "title": "skype"
+  },
+  {
+    "image": "icons/png/003-snapchat.png",
+    "title": "snapchat"
+  },
+  {
+    "image": "icons/png/004-github.png",
+    "title": "github"
+  },
+  {
+    "image": "icons/png/005-twitter.png",
+    "title": "twitter"
+  },
+  {
+    "image": "icons/png/006-facebook.png",
+    "title": "facebook"
+  }
+]

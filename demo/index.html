@@ -24,6 +24,34 @@
 <body>
 <div class="vertical-section-container centered">
 
+    <h3>knob with dom-repeat and ajax</h3>
+    <demo-snippet>
+        <template>
+            <knob-element id="ajax" knob-background-image="circle.png" menu-count="9" menu-border="3">
+                <dom-repeat id="ajax-repeat">
+                    <template>
+                        <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>
+                    </template>
+                </dom-repeat>
+            </knob-element>
+            <script>
+
+                let xhr = new XMLHttpRequest ();
+                xhr.addEventListener ('load', (e) => {
+                    const items = JSON.parse (e.target.responseText);
+                    const ajaxRepeat = document.getElementById ('ajax-repeat');
+                    ajaxRepeat.setAttribute ('items', JSON.stringify (items));
+                });
+                xhr.addEventListener ('error', (e) => {
+                    console.warn ('error', e)
+                });
+
+                xhr.open ('GET', './data.json');
+                xhr.send ();
+            </script>
+        </template>
+    </demo-snippet>
+
     <h3>knob with dom-repeat</h3>
     <demo-snippet>
         <template>
@@ -44,12 +72,9 @@
                 const repeat = document.getElementById ('drepeat');
 
                 repeat.setAttribute ('items', JSON.stringify (items));
-
-
             </script>
         </template>
     </demo-snippet>
-
 
     <h3>Basic knob-element demo</h3>
     <div style="max-width: 400px">
