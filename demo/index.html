@@ -8,6 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 
+    <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../knob-element.html">
@@ -22,6 +23,34 @@
 </head>
 <body>
 <div class="vertical-section-container centered">
+
+    <h3>knob with dom-repeat</h3>
+    <demo-snippet>
+        <template>
+            <knob-element id="repeat" knob-background-image="circle.png" menu-count="9" menu-border="4">
+                <dom-repeat id="drepeat" initial-count="4">
+                    <template>
+                        <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>
+                    </template>
+                </dom-repeat>
+            </knob-element>
+            <script>
+                const items = [
+                    {image: 'icons/png/001-twitch.png', title: 'twitch'},
+                    {image: 'icons/png/002-skype.png', title: 'skype'},
+                    {image: 'icons/png/003-snapchat.png', title: 'snapchat'},
+                    {image: 'icons/png/004-github.png', title: 'github'},
+                ];
+                const repeat = document.getElementById ('drepeat');
+
+                repeat.setAttribute ('items', JSON.stringify (items));
+
+
+            </script>
+        </template>
+    </demo-snippet>
+
+
     <h3>Basic knob-element demo</h3>
     <div style="max-width: 400px">
         <demo-snippet>
