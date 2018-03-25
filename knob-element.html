@@ -138,13 +138,17 @@
                         type: Number,
                         value: 90,
                     },
-                    knobWidth : {
+                    knobWidth        : {
                         type: Number,
                         value: 0,
                     },
-                    knobHeight : {
+                    knobHeight       : {
                         type: Number,
                         value: 0,
+                    },
+                    disableEvent     : {
+                        type : String,
+                        value: 'false',
                     }
                 };
             }
@@ -219,6 +223,11 @@
             }
 
             handleTrack (e) {
+
+                if (this.disableEvent === 'true') {
+                    return;
+                }
+
                 switch(e.detail.state) {
                     case 'start':
                         this.start = this.setRotate(e);
