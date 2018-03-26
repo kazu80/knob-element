@@ -156,6 +156,16 @@
             ready () {
                 super.ready ();
 
+                new Polymer.FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (info) => {
+                    this.menuElements =
+                        this.shadowRoot
+                            .querySelector('slot')
+                            .assignedNodes({flatten: true})
+                            .filter (n => n.nodeName === 'KNOB-ITEM');
+
+                    this.setMenus();
+                });
+
                 this.menuElements =
                     this.shadowRoot
                         .querySelector('slot')
@@ -175,8 +185,6 @@
 
                 this.smooth = 0;
                 this.smoothUp = 0.5;
-
-                this.setMenus();
             }
 
             setMenus () {
@@ -392,11 +400,13 @@
                     this.dispatchEvent (new CustomEvent ('changed', {detail: {selected: this.selected}}));
                 }
 
-                for (let i = 0; i < this.menuElements.length; i++) {
-                    const menu = this.menuElements[i];
-                    menu.setAttribute('item-is-selected', false);
-                    if (val === (i + 1)) {
-                        menu.setAttribute('item-is-selected', true);
+                if (this.menuElements) {
+                    for (let i = 0; i < this.menuElements.length; i++) {
+                        const menu = this.menuElements[i];
+                        menu.setAttribute ('item-is-selected', false);
+                        if (val === (i + 1)) {
+                            menu.setAttribute ('item-is-selected', true);
+                        }
                     }
                 }
             }
