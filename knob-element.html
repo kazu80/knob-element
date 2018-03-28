@@ -223,6 +223,11 @@
                     } else {
                         menu.setAttribute('item-display', 'none');
                     }
+
+                    // set active class
+                    if (i === 0) {
+                        menu.setAttribute ('itemIsSelected', 'true');
+                    }
                 }
             }
 
