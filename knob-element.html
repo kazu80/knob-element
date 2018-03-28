@@ -435,10 +435,13 @@
                 this.x = e.detail.x;
                 this.y = e.detail.y;
 
+                const rectX = this.rect.x ? this.rect.x : this.rect.right;
+                const rectY = this.rect.y ? this.rect.y : this.rect.top;
+
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
                 let degree = KnobElement.getRadian (
-                    this.rect.x + base_x,
-                    this.rect.y + base_y,
+                    rectX + base_x,
+                    rectY + base_y,
                     this.x,
                     this.y
                 ) * 180 / Math.PI;
