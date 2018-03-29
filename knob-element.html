@@ -140,11 +140,9 @@
                     },
                     knobWidth        : {
                         type: Number,
-                        value: 0,
                     },
                     knobHeight       : {
                         type: Number,
-                        value: 0,
                     },
                     disableEvent     : {
                         type : String,
@@ -156,25 +154,6 @@
             ready () {
                 super.ready ();
 
-                new Polymer.FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (info) => {
-                    this.menuElements =
-                        this.shadowRoot
-                            .querySelector('slot')
-                            .assignedNodes({flatten: true})
-                            .filter (n => n.nodeName === 'KNOB-ITEM');
-
-                    this.setMenus();
-                });
-
-                this.menuElements =
-                    this.shadowRoot
-                        .querySelector('slot')
-                        .assignedNodes({flatten: true})
-                        .filter (n => n.nodeName === 'KNOB-ITEM');
-
-                this.width  = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobWidth;
-                this.height = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobHeight;
-
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
@@ -185,6 +164,19 @@
 
                 this.smooth = 0;
                 this.smoothUp = 0.5;
+
+                new Polymer.FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (info) => {
+                    this.width  = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobWidth;
+                    this.height = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobHeight;
+
+                    this.menuElements =
+                        this.shadowRoot
+                            .querySelector('slot')
+                            .assignedNodes({flatten: true})
+                            .filter (n => n.nodeName === 'KNOB-ITEM');
+
+                    this.setMenus();
+                });
             }
 
             setMenus () {
