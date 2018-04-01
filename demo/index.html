@@ -37,107 +37,11 @@
                 <knob-item class="menu" icon="icons:zoom-out" title="ZOOM OUT"></knob-item>
                 <knob-item class="menu" icon="icons:file-download" title="DOWNLOAD"></knob-item>
             </knob-element>
-            <style>
-                #container {
-                    position : relative;
-                    border   : 2px solid #cccccc;
-                    height   : 400px;
-                    width    : 400px;
-                }
-
-                #handle {
-                    border-radius : 40px;
-                    background    : #ff00ff;
-                    position      : absolute;
-                    margin        : -20px 0 0 -20px;
-                    height        : 40px;
-                    width         : 40px;
-                }
-            </style>
-            <div id="container">
-                <div id="handle"></div>
-            </div>
-            <script>
-                //const FRICTION_COEFF = 0.85;
-                const FRICTION_COEFF = 0.99;
-                const BOUNCE = 0.2;
-
-                const container = document.querySelector ('#container');
-                const handle = document.querySelector ('#handle');
-                const bounds = container.getBoundingClientRect ();
-                const radius = handle.offsetWidth / 2;
-
-                let dragging = false;
-                const mouse = {x: 0, y: 0};
-                const position = {x: 0, y: 0};
-                const previous = {x: position.x, y: position.y}; // in case position is initialised at non-zero values
-                const velocity = {x: 0, y: 0};
-
-                function step () {
-                    requestAnimationFrame (step);
-
-                    if (dragging) {
-                        // previous
-                        previous.x = position.x;
-                        previous.y = position.y;
-
-                        // now position
-                        position.x = mouse.x;
-                        position.y = mouse.y;
-
-                        // moving
-                        velocity.x = (position.x - previous.x);
-                        velocity.y = (position.y - previous.y);
-
-                    } else {
-                        // 離した時の距離を足していく
-                        position.x += velocity.x;
-                        position.y += velocity.y;
-
-                        // 戻していく
-                        velocity.x *= FRICTION_COEFF;
-                        velocity.y *= FRICTION_COEFF;
-                    }
-
-                    if (position.x > bounds.width - radius) {
-                        velocity.x *= -BOUNCE;
-                        position.x = bounds.width - radius;
-                    }
-
-                    if (position.x < radius) {
-                        velocity.x *= -BOUNCE;
-                        position.x = radius;
-                    }
-
-                    if (position.y > bounds.height - radius) {
-                        velocity.y *= -BOUNCE;
-                        position.y = bounds.height - radius;
-                    }
-
-                    if (position.y < radius) {
-                        velocity.y *= -BOUNCE;
-                        position.y = radius;
-                    }
-
-                    // could use css transforms
-                    handle.style.left = position.x + 'px';
-                    handle.style.top = position.y + 'px';
-                }
-
-                // attach to handle instead to init drag only when grabbing the handle
-                container.addEventListener ('mousedown', function () { dragging = true; });
-                document.addEventListener ('mouseup', function () { dragging = false; });
-                document.addEventListener ('mousemove', function (event) {
-                    mouse.x = event.x - bounds.left;
-                    mouse.y = event.y - bounds.top;
-                });
-
-                step();
-
-            </script>
         </template>
     </demo-snippet>
 
+
+    <!--
     <h3>knob with icon</h3>
     <demo-snippet>
         <template>
@@ -186,6 +90,8 @@
             </script>
         </template>
     </demo-snippet>
+    -->
+
 
     <h3>knob with dom-repeat and ajax</h3>
     <demo-snippet>
@@ -215,6 +121,7 @@
         </template>
     </demo-snippet>
 
+    <!--
     <h3>knob with dom-repeat</h3>
     <demo-snippet>
         <template>
@@ -238,12 +145,13 @@
             </script>
         </template>
     </demo-snippet>
+    -->
 
     <h3>Basic knob-element demo</h3>
     <div style="max-width: 400px">
         <demo-snippet>
             <template>
-                <knob-element id="knob" knob-background-image="circle.png" menu-count="9" menu-border="4">
+                <knob-element id="knob" knob-background-image="circle.png" menu-count="9" menu-border="4" smooth="0.99">
                     <knob-item class="menu" image="icons/png/001-twitch.png" title="twitch" item-is-selected="true"></knob-item>
                     <knob-item class="menu" image="icons/png/002-skype.png" title="skype"></knob-item>
                     <knob-item class="menu" image="icons/png/003-snapchat.png" title="snapchat"></knob-item>

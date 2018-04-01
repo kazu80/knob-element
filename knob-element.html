@@ -147,7 +147,11 @@
                     disableEvent     : {
                         type : String,
                         value: 'false',
-                    }
+                    },
+                    smooth           : {
+                        type : String,
+                        value: '0.65'
+                    },
                 };
             }
 
@@ -228,7 +232,6 @@
             }
 
             handleTrack (e) {
-
                 if (this.disableEvent === 'true') {
                     return;
                 }
@@ -262,6 +265,9 @@
                             0,
                             this.smooth
                         );
+
+                        this.dragDistance = -1 * (this.end - this.start);
+
                         this.start = this.end;
 
                         //
@@ -275,13 +281,48 @@
                         //
                         this.smooth = 0;
 
-                        //
+                        // inertia
+                        this._animationInertia ();
+
+                        break;
+                }
+            }
+
+            _animationInertia () {
+                let isEnded = false;
+                const inertia = () => {
+                    const request_id = requestAnimationFrame (inertia);
+
+                    // Smooth
+                    this.dragDistance = this.dragDistance * 0.65;
+
+                    // Move
+                    this.degree = this.degree + this.dragDistance;
+
+                    // Judge of end or decline distance
+                    if (this.dragDistance < 0) {
+                        if (this.dragDistance > -0.1) {
+                            isEnded = true;
+                        }
+                    } else {
+                        if (this.dragDistance < 0.1) {
+                            isEnded = true;
+                        }
+                    }
+
+                    // End of move
+                    if (isEnded) {
+                        // stop
+                        cancelAnimationFrame (request_id);
+
+                        // set css
                         this.$.frame.style.transform = 'scale(1)';
 
-                        //
+                        // set css
                         this.$.box.style.willChange = 'inherit';
                         this.$.frame.style.willChange = 'inherit';
 
+                        // set css
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
                             menu.setAttribute('item-will-change', 'inherit');
@@ -308,11 +349,12 @@
                         // set selected
                         this.selected = this.Degree2Selected();
 
-                        //
+                        // fire event
                         this.dispatchEvent (new CustomEvent ('touch-end'));
+                    }
+                };
 
-                        break;
-                }
+                inertia ();
             }
 
             Degree2Selected() {
@@ -332,9 +374,11 @@
                 if (Math.abs (move) < filter) {
 
                     // smoother
+                    /*
                     if (Math.abs (move) > 1) {
                         move = this.smoother (move, smooth);
                     }
+                    */
 
                     //
                     total = Number (total) + move;
