@@ -373,13 +373,6 @@
                 // limiter
                 if (Math.abs (move) < filter) {
 
-                    // smoother
-                    /*
-                    if (Math.abs (move) > 1) {
-                        move = this.smoother (move, smooth);
-                    }
-                    */
-
                     //
                     total = Number (total) + move;
 
@@ -450,16 +443,6 @@
                         }
                     }
                 }
-            }
-
-            static smoother (move, smooth) {
-                if (move < 0) {
-                    move += (smooth * -1);
-                } else {
-                    move += smooth;
-                }
-
-                return move;
             }
 
             static bar (val, max, min) {
