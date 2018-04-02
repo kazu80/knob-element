@@ -220,6 +220,11 @@
                     if (i === 0) {
                         menu.setAttribute ('item-is-selected', 'true');
                     }
+
+                    // set event
+                    menu.addEventListener('click', () => {
+                        this.dispatchEvent (new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: this.selected}}));
+                    });
                 }
             }
 
