@@ -166,9 +166,6 @@
                 this.position_visible = this.menuBorder;
                 this.position_disapper = this.menuBorder - 1;
 
-                this.smooth = 0;
-                this.smoothUp = 0.5;
-
                 new Polymer.FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (info) => {
                     this.width  = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobWidth;
                     this.height = this.$.box.clientWidth ? this.$.box.clientWidth : this.knobHeight;
@@ -189,6 +186,9 @@
                 if (base_x === 0 || base_y === 0) {
                     console.warn('Not find base point!');
                 }
+
+                this.base_x = base_x;
+                this.base_y = base_y;
 
                 for (let i = 0; i < this.menuElements.length; i++) {
                     const menu = this.menuElements[i];
@@ -261,14 +261,14 @@
                         break;
                     case 'track':
                         this.end = this.setRotate (e);
+
                         this.degree = KnobElement.filterDegree (
                             this.start,
                             this.end,
                             this.degree,
                             100,
                             this.divide * this.menuElements.length,
-                            0,
-                            this.smooth
+                            0
                         );
 
                         this.dragDistance = -1 * (this.end - this.start);
@@ -276,16 +276,10 @@
                         this.start = this.end;
 
                         //
-                        this.smooth += this.smoothUp;
-
-                        //
                         this.$.frame.style.transform = 'scale(0.98)';
 
                         break;
                     case 'end':
-                        //
-                        this.smooth = 0;
-
                         // inertia
                         this._animationInertia ();
 
@@ -295,6 +289,7 @@
 
             _animationInertia () {
                 let isEnded = false;
+
                 const inertia = () => {
                     const request_id = requestAnimationFrame (inertia);
 
@@ -366,7 +361,7 @@
                 return (this.degree / this.divide) + 1;
             }
 
-            static filterDegree (start, end, total, filter, max, min, smooth) {
+            static filterDegree (start, end, total, filter, max, min) {
                 //
                 let move = end - start;
 
@@ -467,10 +462,9 @@
                 const rectX = this.rect.x ? this.rect.x : this.rect.right;
                 const rectY = this.rect.y ? this.rect.y : this.rect.top;
 
-                const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
                 let degree = KnobElement.getRadian (
-                    rectX + base_x,
-                    rectY + base_y,
+                    rectX + this.base_x,
+                    rectY + this.base_y,
                     this.x,
                     this.y
                 ) * 180 / Math.PI;
