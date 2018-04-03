@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
 <link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icons/maps-icons.html">
@@ -45,6 +46,8 @@
                 position   : relative;
                 margin-top : 5px;
                 font-size  : 16px;
+
+                @apply --knob-item-title;
             }
 
             .menu-wrapper.active {
@@ -54,6 +57,7 @@
             .menu-wrapper.active .menu {
                 transform: scale(1.2);
 
+                @apply --knob-item-menu-active;
             }
 
             .menu-wrapper.active .title {
@@ -64,7 +68,16 @@
 
         <div id="wrapper" class="menu-wrapper">
             <div id="menu" class="menu">
-                <iron-icon icon="[[icon]]"></iron-icon>
+                <dom-if if="[[image]]">
+                    <template>
+                        <img src="[[image]]" class="menu-image">
+                    </template>
+                </dom-if>
+                <dom-if if="[[!image]]">
+                    <template>
+                        <iron-icon icon="[[icon]]"></iron-icon>
+                    </template>
+                </dom-if>
             </div>
             <div class="title">{{title}}</div>
         </div>
@@ -131,8 +144,6 @@
 
             ready () {
                 super.ready ();
-
-                this.$.menu.style.backgroundImage = `url(${Polymer.rootPath + this.image})`;
 
                 if (this.itemIsSelected === 'true') {
                     this.$.wrapper.classList.add('active');
