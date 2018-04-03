@@ -77,12 +77,12 @@
 
         <div id="wrapper" class="menu-wrapper">
             <div id="menu" class="menu">
-                <dom-if if="[[image]]">
+                <dom-if if="{{isImage}}">
                     <template>
                         <img src="[[image]]" class="menu-image">
                     </template>
                 </dom-if>
-                <dom-if if="[[!image]]">
+                <dom-if if="{{!isImage}}">
                     <template>
                         <iron-icon icon="[[icon]]"></iron-icon>
                     </template>
@@ -98,7 +98,12 @@
             static get properties () {
                 return {
                     image         : {
-                        type: String,
+                        type    : String,
+                        observer: '_setImage'
+                    },
+                    isImage       : {
+                        type : Boolean,
+                        value: false
                     },
                     itemWidth     : {
                         type: String,
@@ -106,13 +111,13 @@
                         value: '40px',
                         observer: '_setMenuWidth'
                     },
-                    itemHeight: {
+                    itemHeight    : {
                         type: String,
                         notify  : true,
                         value: '40px',
                         observer: '_setMenuHeight'
                     },
-                    title: {
+                    title         : {
                         type: String,
                     },
                     itemTop: {
@@ -156,6 +161,12 @@
 
                 if (this.itemIsSelected === 'true') {
                     this.$.wrapper.classList.add('active');
+                }
+            }
+
+            _setImage (val) {
+                if (val) {
+                    this.isImage = true;
                 }
             }
 
