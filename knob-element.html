@@ -67,7 +67,6 @@
         </div>
 
         <div class="wrapper">
-            <!-- <div class="target-frame"></div> -->
             <div id="frame" class="box__wrapper">
                 <div id="box" class="box" on-track="handleTrack">
                     <img id="background" class="background-image">
@@ -188,16 +187,16 @@
                 this.base_x = base_x;
                 this.base_y = base_y;
 
+                // distance
+                if (!this.distance) {
+                    this.distance = base_y * 0.7;
+                }
+
                 for (let i = 0; i < this.menuElements.length; i++) {
                     const menu = this.menuElements[i];
 
                     // set angle of parts
                     let angle = this.divide * i;
-
-                    // distance
-                    if (!this.distance) {
-                        this.distance = base_y * 0.7;
-                    }
 
                     // update start position
                     angle = angle - this.menuStartPosition;
@@ -208,8 +207,13 @@
                     menu.setAttribute('item-left', x2);
 
                     // update menu icon size
-                    menu.setAttribute('item-width', `${this.distance * 0.4}px`);
-                    menu.setAttribute('item-height', `${this.distance * 0.4}px`);
+                    if (!menu.getAttribute ('item-width')) {
+                        menu.setAttribute ('item-width', `${this.distance * 0.4}px`);
+                    }
+
+                    if (!menu.getAttribute ('item-height')) {
+                        menu.setAttribute ('item-height', `${this.distance * 0.4}px`);
+                    }
 
                     // set visible
                     if (i < this.position_visible) {
@@ -247,7 +251,10 @@
 
                         for (let i = 0; i < this.menuElements.length; i++) {
                             const menu = this.menuElements[i];
-                            menu.setAttribute ('item-will-change', 'auto');
+
+                            menu.getAttribute ('item-will-change') ?
+                                menu.itemWillChange = 'auto' :
+                                menu.setAttribute ('item-will-change', 'auto');
                         }
 
                         //
@@ -457,6 +464,7 @@
                 this.x = e.detail.x;
                 this.y = e.detail.y;
 
+                // Support old browser. Old browser hasn't rect.x parameter
                 const rectX = this.rect.x ? this.rect.x : this.rect.right;
                 const rectY = this.rect.y ? this.rect.y : this.rect.top;
 
