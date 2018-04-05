@@ -6,6 +6,8 @@
         <style>
             :host {
                 display : block;
+
+                --knob-element-box-rotate : 0deg;
             }
 
             .wrapper {
@@ -38,6 +40,7 @@
                 background-size   : contain;
                 background-repeat : no-repeat;
                 transition        : transform 200ms;
+                transform         : rotate(var(--knob-element-box-rotate));
                 user-select       : none;
             }
 
@@ -398,7 +401,12 @@
                 if (KnobConstant.DIRECTION_SWIPE === 'left') {
                     val = val * -1;
                 }
-                this.$.box.style.transform = `rotate(${val}deg)`;
+
+                // CSS transform
+                if (old) {
+                    this.style.setProperty ('--knob-element-box-rotate', `${val}deg`);
+                }
+
 
                 // CSS
                 if (this.menuElements) {
