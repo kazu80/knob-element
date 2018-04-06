@@ -142,21 +142,25 @@
                     knobWidth        : {
                         type: Number,
                     },
-                    knobHeight       : {
+                    knobHeight  : {
                         type: Number,
                     },
-                    disableEvent     : {
+                    disableEvent: {
                         type : String,
                         value: 'false',
                     },
-                    smooth           : {
+                    smooth      : {
                         type : String,
                         value: '0.65'
                     },
-                    knobSpeed: {
+                    knobSpeed   : {
                         type: Number,
                         value: 50,
                         observer: '_changeKnobSpeed',
+                    },
+                    knobAction  : {
+                        type : String,
+                        value: 'end',
                     }
                 };
             }
@@ -248,6 +252,10 @@
             }
 
             handleTrack (e) {
+                //
+                this.knobAction = e.detail.state;
+
+                //
                 if (this.disableEvent === 'true') {
                     return;
                 }
@@ -267,7 +275,7 @@
                         }
 
                         //
-                        this.$.frame.style.transform = 'scale(0.98)';
+                        this.$.frame.style.transform = 'scale(1.05)';
 
                         //
                         this.dispatchEvent (new CustomEvent ('touch-start'));
@@ -288,9 +296,6 @@
                         this.dragDistance = -1 * (this.end - this.start);
 
                         this.start = this.end;
-
-                        //
-                        this.$.frame.style.transform = 'scale(0.98)';
 
                         break;
                     case 'end':
@@ -426,7 +431,7 @@
                         const menu = this.menuElements[i];
 
                         //
-                        if ((i - 0.2) < selected && (i + 0.2) > selected) {
+                        if (this.knobAction === 'end' && (i - 0.2) < selected && (i + 0.2) > selected) {
                             menu.setAttribute ('item-is-selected', true);
                         } else {
                             menu.setAttribute ('item-is-selected', false);
