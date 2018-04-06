@@ -8,6 +8,7 @@
                 display : block;
 
                 --knob-element-box-rotate : 0deg;
+                --knob-element-box-transition-time : 200ms;
             }
 
             .wrapper {
@@ -39,7 +40,7 @@
                 font-size         : 0;
                 background-size   : contain;
                 background-repeat : no-repeat;
-                transition        : transform 200ms;
+                transition        : transform var(--knob-element-box-transition-time);
                 transform         : rotate(var(--knob-element-box-rotate));
                 user-select       : none;
             }
@@ -403,7 +404,7 @@
                 }
 
                 // CSS transform
-                if (old) {
+                if (old !== undefined) {
                     this.style.setProperty ('--knob-element-box-rotate', `${val}deg`);
                 }
 
