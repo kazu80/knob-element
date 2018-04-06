@@ -39,7 +39,7 @@
     <h3>knob with inertia</h3>
     <demo-snippet>
         <template>
-            <knob-element id="inertia" class="inertia" knob-background-image="circle01.png" menu-count="9" menu-border="5">
+            <knob-element id="inertia" class="inertia" knob-background-image="circle01.png" menu-count="9" menu-border="5"  knob-speed="50">
                 <knob-item class="menu" icon="icons:home" title="HOME" item-is-selected="home"></knob-item>
                 <knob-item class="menu" icon="icons:account-circle" title="PROFILE"></knob-item>
                 <knob-item class="menu" icon="icons:favorite" title="FAVORITE"></knob-item>
@@ -137,7 +137,7 @@
     <h3>knob with dom-repeat</h3>
     <demo-snippet>
         <template>
-            <knob-element id="repeat" knob-background-image="circle.png" menu-count="9" menu-border="4">
+            <knob-element id="repeat" knob-background-image="circle.png" menu-count="9" menu-border="4" knob-speed="550">
                 <dom-repeat id="drepeat" initial-count="4">
                     <template>
                         <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>

@@ -8,7 +8,7 @@
                 display : block;
 
                 --knob-element-box-rotate : 0deg;
-                --knob-element-box-transition-time : 200ms;
+                --knob-element-box-transition-time : 50ms;
             }
 
             .wrapper {
@@ -32,7 +32,7 @@
 
             .wrapper .box__wrapper {
                 position   : relative;
-                transition : transform 200ms;
+                transition : transform 100ms;
             }
 
             .wrapper .box__wrapper .box {
@@ -153,6 +153,11 @@
                         type : String,
                         value: '0.65'
                     },
+                    knobSpeed: {
+                        type: Number,
+                        value: 50,
+                        observer: '_changeKnobSpeed',
+                    }
                 };
             }
 
@@ -440,6 +445,12 @@
                             menu.setAttribute('item-display', display);
                         }
                     }
+                }
+            }
+
+            _changeKnobSpeed (val, old) {
+                if (old !== undefined) {
+                    this.style.setProperty ('--knob-element-box-transition-time', `${val}deg`);
                 }
             }
 
