@@ -171,9 +171,8 @@
                 this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
-                this.divide = 360 / this.menuCount;
                 this.selected = 1;
-                this.position_visible = this.menuBorder;
+
                 this.position_disapper = this.menuBorder - 1;
 
                 new Polymer.FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (info) => {
@@ -190,6 +189,10 @@
                 });
             }
 
+            attributeChangedCallback () {
+
+            }
+
             setMenus () {
                 const [base_x, base_y] = KnobElement.getBasePointXY(this.width, this.height);
 
@@ -204,6 +207,12 @@
                 if (!this.distance) {
                     this.distance = base_y * 0.7;
                 }
+
+                // divide
+                this.divide = 360 / this.menuCount;
+
+                //
+                this.position_visible = this.menuBorder;
 
                 for (let i = 0; i < this.menuElements.length; i++) {
                     const menu = this.menuElements[i];
@@ -275,7 +284,8 @@
                         }
 
                         //
-                        this.$.frame.style.transform = 'scale(1.05)';
+                        // this.$.frame.style.transform = 'scale(1.05)';
+                        this.$.frame.style.transform = 'scale(1)';
 
                         //
                         this.dispatchEvent (new CustomEvent ('touch-start'));
@@ -415,7 +425,7 @@
 
                 // CSS transform
                 if (old !== undefined) {
-                    this.style.setProperty ('--knob-element-box-rotate', `${val}deg`);
+                    this.style.setProperty ('--knob-element-box-rotate', `${val}ms`);
                 }
 
 
