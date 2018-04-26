@@ -425,7 +425,7 @@
 
                 // CSS transform
                 if (old !== undefined) {
-                    this.style.setProperty ('--knob-element-box-rotate', `${val}ms`);
+                    this.style.setProperty ('--knob-element-box-rotate', `${val}reg`);
                 }
 
 
@@ -465,7 +465,7 @@
 
             _changeKnobSpeed (val, old) {
                 if (old !== undefined) {
-                    this.style.setProperty ('--knob-element-box-transition-time', `${val}deg`);
+                    this.style.setProperty ('--knob-element-box-transition-time', `${val}ms`);
                 }
             }
 
