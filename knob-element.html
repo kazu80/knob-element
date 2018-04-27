@@ -154,8 +154,8 @@
                         value: '0.65'
                     },
                     knobSpeed   : {
-                        type: Number,
-                        value: 50,
+                        type    : Number,
+                        value   : 0,
                         observer: '_changeKnobSpeed',
                     },
                     knobAction  : {
@@ -271,6 +271,8 @@
 
                 switch(e.detail.state) {
                     case 'start':
+                        this.knobSpeed = 0;
+
                         this.start = this.setRotate(e);
                         this.$.box.style.willChange = 'transform';
                         this.$.frame.style.willChange = 'transform';
@@ -318,6 +320,9 @@
 
             _animationInertia () {
                 let isEnded = false;
+
+                // speed down
+                this.knobSpeed = 100;
 
                 const inertia = () => {
                     const request_id = requestAnimationFrame (inertia);

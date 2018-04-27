@@ -57,7 +57,7 @@
     <h3>knob with icon</h3>
     <demo-snippet>
         <template>
-            <knob-element id="icon" knob-background-image="circle01.png" menu-count="9" menu-border="3">
+            <knob-element id="icon">
                 <knob-item class="menu" icon="icons:home" title="HOME" item-is-selected="home"></knob-item>
                 <knob-item class="menu" icon="icons:account-circle" title="PROFILE"></knob-item>
                 <knob-item class="menu" icon="icons:favorite" title="FAVORITE"></knob-item>
@@ -69,6 +69,10 @@
             </knob-element>
             <script>
                 const knobIcon = document.getElementById ('icon');
+
+                knobIcon.knobBackgroundImage = 'circle01.png';
+                knobIcon.menuCount = 9;
+                knobIcon.menuBorder = 3;
 
                 const count = Number (knobIcon.getAttribute ('menu-count'));
                 const divide = 360 / count;
