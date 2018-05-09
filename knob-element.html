@@ -251,6 +251,9 @@
 
                     // set event
                     menu.addEventListener('click', () => {
+                        // change animation speed
+                        this.knobSpeed = 500;
+
                         // move knob to selected item
                         this.degree = this.divide * i;
 
