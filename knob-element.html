@@ -251,6 +251,10 @@
 
                     // set event
                     menu.addEventListener('click', () => {
+                        // move knob to selected item
+                        this.degree = this.divide * i;
+
+                        // fire event
                         this.dispatchEvent (new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: i}}));
                     });
                 }
