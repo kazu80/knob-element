@@ -251,7 +251,7 @@
 
                     // set event
                     menu.addEventListener('click', () => {
-                        this.dispatchEvent (new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: this.selected}}));
+                        this.dispatchEvent (new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: i}}));
                     });
                 }
             }
