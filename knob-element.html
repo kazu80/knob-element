@@ -509,8 +509,14 @@
                 this.y = e.detail.y;
 
                 // Support old browser. Old browser hasn't rect.x parameter
-                const rectX = this.rect.x ? this.rect.x : this.rect.right;
-                const rectY = this.rect.y ? this.rect.y : this.rect.top;
+                let rectX = this.rect.x ? this.rect.x : this.rect.right;
+                let rectY = this.rect.y ? this.rect.y : this.rect.top;
+
+                // God error when rectY is less of 0
+                // So, If rectY is less of 0, Add -1 to rectY
+                if (rectY < 1) {
+                    rectY = rectY * -1;
+                }
 
                 let degree = KnobElement.getRadian (
                     rectX + this.base_x,
