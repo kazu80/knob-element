@@ -169,7 +169,6 @@
             ready () {
                 super.ready ();
 
-                this.rect   = this.$.box.getBoundingClientRect();
                 this.start  = 0;
                 this.end    = 0;
                 this.selected = 1;
@@ -252,6 +251,9 @@
 
                     // set event
                     menu.addEventListener('click', () => {
+                        // change animation speed
+                        this.knobSpeed = 500;
+
                         // move knob to selected item
                         this.degree = this.divide * i;
 
@@ -305,8 +307,7 @@
                             this.start,
                             this.end,
                             this.degree,
-                            100,
-                            this.divide * this.menuElements.length,
+                            this.divide * (this.menuElements.length - 1),
                             0
                         );
 
@@ -400,7 +401,7 @@
                 return (this.degree / this.divide) + 1;
             }
 
-            static filterDegree (start, end, total, filter, max, min) {
+            static filterDegree (start, end, total, max, min) {
                 //
                 let move = end - start;
 
@@ -410,14 +411,7 @@
                 }
 
                 // limiter
-                if (Math.abs (move) < filter) {
-
-                    //
-                    total = Number (total) + move;
-
-                    // bar
-                    total = this.bar (total, max, min);
-                }
+                total += this.bar (total, move, max, min);
 
                 return Number (total);
             }
@@ -495,19 +489,34 @@
                 }
             }
 
-            static bar (val, max, min) {
+            /***
+             * Add weight to move that over limit move
+             * @param val
+             * @param move
+             * @param max
+             * @param min
+             * @returns {*}
+             */
+            static bar (val, move, max, min) {
+                const weight = 0.2;
+
                 if (val < min) {
-                    val *= 0.95;
+                    move *= weight;
                 }
+
                 if (val > max) {
-                    val *= 0.95;
+                    move *= weight;
                 }
-                return val;
+
+                return move;
             }
 
             setRotate (e) {
                 this.x = e.detail.x;
                 this.y = e.detail.y;
+
+                // Set Rect;
+                this.rect = this.getBoundingClientRect ();
 
                 // Support old browser. Old browser hasn't rect.x parameter
                 let rectX = this.rect.x ? this.rect.x : this.rect.right;
