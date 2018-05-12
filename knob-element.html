@@ -172,6 +172,7 @@
                 this.start  = 0;
                 this.end    = 0;
                 this.selected = 1;
+                this.transitionSpeedAuto = 500;
 
                 this.position_disapper = this.menuBorder - 1;
 
@@ -252,13 +253,14 @@
                     // set event
                     menu.addEventListener('click', () => {
                         // change animation speed
-                        this.knobSpeed = 500;
+                        this.knobSpeed = this.transitionSpeedAuto;
+
+                        // fire event
+                        this.dispatchEvent (
+                            new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: i}}));
 
                         // move knob to selected item
                         this.degree = this.divide * i;
-
-                        // fire event
-                        this.dispatchEvent (new CustomEvent ('menu-click', {bubbles: true, composed: true, detail: {selected: i}}));
                     });
                 }
             }
@@ -293,7 +295,6 @@
                         }
 
                         //
-                        // this.$.frame.style.transform = 'scale(1.05)';
                         this.$.frame.style.transform = 'scale(1)';
 
                         //
