@@ -28,6 +28,12 @@ ui of like knob
 ```
 -->
 
+## Installation
+
+```
+$ bower install --save monkick/knob-element
+```
+
 ## Parameter
 
 | key | default | description |
