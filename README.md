@@ -34,6 +34,15 @@ ui of like knob
 $ bower install --save monkick/knob-element
 ```
 
+## Usage
+
+At first. Import it at header.
+
+```html
+    <link rel="import" href="../bower_components/knob-element/knob-element.html">
+    <link rel="import" href="../bower_components/knob-element/knob-item.html">
+```
+
 ## Parameter
 
 | key | default | description |
