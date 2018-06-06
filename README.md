@@ -80,8 +80,18 @@ Able to use `dom-repeat`
 
 | key | default | description |
 |----------------|-------------|-------------| 
+| degree | 0 | degree of menu now |
+| selected | - | Item No of selected now |
 | distance | 125 | Distance of menu from base point |
+| knob-background-image | '' | URL of background image path |
+| menu-count | 6 | count of menu |
 | menu-border | 3 | Border of visible or disappear for menu |
 | menu-start-position | 90 | Start position of menu. This value is degree unit |
+| knob-width | - | Width of knob |
+| knob-height | - | Height of knob |
+| disable-event | false | |
+| smooth | 0.65 | Number of smooth of knob animation |
+| knob-speed | 0 | |
+| knob-action | end | |
 
 
