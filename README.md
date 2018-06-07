@@ -89,9 +89,24 @@ Able to use `dom-repeat`
 | menu-start-position | 90 | Start position of menu. This value is degree unit |
 | knob-width | - | Width of knob |
 | knob-height | - | Height of knob |
-| disable-event | false | |
+| disable-event | false | disable gesture |
 | smooth | 0.65 | Number of smooth of knob animation |
-| knob-speed | 0 | |
-| knob-action | end | |
+| knob-speed | 0 | knob's transition time |
+| knob-action | end | user's gesture (start, track, end) |
 
+### knob-item
 
+| key | default | description |
+|----------------|-------------|-------------|
+| image | - | knob background image |
+| isImage | false | |
+| itemWidth | 40px | |
+| itemHeight | 40px | |
+| title | - | |
+| itemTop | - | |
+| itemLeft | - | |
+| itemDisplay | - | |
+| itemWillChange | inherit | |
+| itemTransform | - | |
+| itemIsSelected | - | |
+| icon | - | |
