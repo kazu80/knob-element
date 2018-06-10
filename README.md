@@ -99,8 +99,8 @@ Able to use `dom-repeat`
 | key | default | description |
 |----------------|-------------|-------------|
 | image | - | knob background image |
-| itemWidth | 40px | |
-| itemHeight | 40px | |
+| itemWidth | 40px | width of item |
+| itemHeight | 40px | height of item |
 | title | - | |
 | itemTop | - | |
 | itemLeft | - | |
