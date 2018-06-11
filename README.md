@@ -102,10 +102,10 @@ Able to use `dom-repeat`
 | itemWidth | 40px | width of item |
 | itemHeight | 40px | height of item |
 | title | - | title of menu |
-| itemTop | - | |
-| itemLeft | - | |
-| itemDisplay | - | |
-| itemWillChange | inherit | |
-| itemTransform | - | |
-| itemIsSelected | - | |
-| icon | - | |
+| itemTop | - | location of item from top |
+| itemLeft | - | location of item from left |
+| itemDisplay | - | display property of css |
+| itemWillChange | inherit | willchnage property of css |
+| itemTransform | - | transform property of css |
+| itemIsSelected | - | selected |
+| icon | - | iron-icons name |
