@@ -101,7 +101,7 @@ Able to use `dom-repeat`
 | image | - | knob background image |
 | itemWidth | 40px | width of item |
 | itemHeight | 40px | height of item |
-| title | - | |
+| title | - | title of menu |
 | itemTop | - | |
 | itemLeft | - | |
 | itemDisplay | - | |
