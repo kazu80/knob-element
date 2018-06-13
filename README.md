@@ -109,3 +109,11 @@ Able to use `dom-repeat`
 | itemTransform | - | transform property of css |
 | itemIsSelected | - | selected |
 | icon | - | iron-icons name |
+
+
+## Event
+
+| key | param | description |
+|----------------|-------------|-------------|
+| menu-click | selected | fire event when menu clicked |
+| changed | selected | fire event when menu chnaged |
