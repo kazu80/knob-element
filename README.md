@@ -2,7 +2,8 @@
 
 # \<knob-element\>
 
-ui of like knob
+This is UI like knob or dial.
+It select menu with fingers swipe gesture.
 
 ## Version
 1.0.0
