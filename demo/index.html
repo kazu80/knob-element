@@ -140,7 +140,7 @@
     <h3>knob with dom-repeat</h3>
     <demo-snippet>
         <template>
-            <knob-element id="repeat" knob-background-image="circle.png" menu-count="9" menu-border="4" knob-speed="550">
+            <knob-element id="repeat" menu-count="9" menu-border="4" knob-speed="550">
                 <dom-repeat id="drepeat" initial-count="4">
                     <template>
                         <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>
@@ -157,6 +157,8 @@
                 const repeat = document.getElementById ('drepeat');
 
                 repeat.setAttribute ('items', JSON.stringify (items));
+
+                repeat.knobBackgroundImage = 'circle01.png';
             </script>
         </template>
     </demo-snippet>
