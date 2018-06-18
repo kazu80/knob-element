@@ -143,7 +143,7 @@
             <knob-element id="repeat" menu-count="9" menu-border="4" knob-speed="550">
                 <dom-repeat id="drepeat" initial-count="4">
                     <template>
-                        <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>
+                        <knob-item class="menu" image$="[[item.image]]" title="[[item.title]]"></knob-item>
                     </template>
                 </dom-repeat>
             </knob-element>
@@ -154,11 +154,13 @@
                     {image: 'icons/png/003-snapchat.png', title: 'snapchat'},
                     {image: 'icons/png/004-github.png', title: 'github'},
                 ];
-                const repeat = document.getElementById ('drepeat');
+                const drepeat = document.getElementById ('drepeat');
+                drepeat.setAttribute ('items', JSON.stringify (items));
 
-                repeat.setAttribute ('items', JSON.stringify (items));
-
+                const repeat = document.getElementById ('repeat');
                 repeat.knobBackgroundImage = 'circle01.png';
+                repeat.menuCount = 9;
+                repeat.menuBorder = 4;
             </script>
         </template>
     </demo-snippet>

@@ -418,6 +418,13 @@
             }
 
             _changeBackgroundImage(val) {
+                if (val === undefined) {
+                    return;
+                }
+                if (val === "") {
+                    return;
+                }
+
                 this.$.box.style.backgroundImage = `url(${val})`;
                 this.$.background.setAttribute('src', val);
             }
