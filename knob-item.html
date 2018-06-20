@@ -152,10 +152,14 @@
                 }
             }
 
-            ready () {
-                super.ready ();
+            constructor () {
+                super ();
 
                 this.isImage = false;
+            }
+
+            ready () {
+                super.ready ();
 
                 if (this.itemIsSelected === 'true') {
                     this.$.wrapper.classList.add('active');
