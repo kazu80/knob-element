@@ -107,11 +107,10 @@
         </template>
     </demo-snippet>
 
-    <!--
     <h3>knob with dom-repeat and ajax</h3>
     <demo-snippet>
         <template>
-            <knob-element id="ajax" knob-background-image="circle.png" menu-count="9" menu-border="3">
+            <knob-element id="ajax">
                 <dom-repeat id="ajax-repeat">
                     <template>
                         <knob-item class="menu" image="[[item.image]]" title="[[item.title]]"></knob-item>
@@ -119,6 +118,10 @@
                 </dom-repeat>
             </knob-element>
             <script>
+                const knob = document.getElementById ('ajax');
+                knob.knobBackgroundImage = 'circle01.png';
+                knob.menuCount = 9;
+                knob.menuBorder = 4;
 
                 let xhr = new XMLHttpRequest ();
                 xhr.addEventListener ('load', (e) => {
@@ -135,7 +138,6 @@
             </script>
         </template>
     </demo-snippet>
-    -->
 
     <h3>knob with dom-repeat</h3>
     <demo-snippet>
