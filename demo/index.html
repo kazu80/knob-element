@@ -14,8 +14,6 @@
     <link rel="import" href="../knob-element.html">
     <link rel="import" href="../knob-item.html">
 
-    <link rel="import" href="../../audio-player/audio-player.html">
-
     <custom-style>
         <style is="custom-style" include="demo-pages-shared-styles">
         </style>
@@ -39,7 +37,7 @@
     <h3>knob with inertia</h3>
     <demo-snippet>
         <template>
-            <knob-element id="inertia" class="inertia" knob-background-image="circle01.png" menu-count="9" menu-border="5"  knob-speed="50">
+            <knob-element id="inertia" class="inertia" knob-background-image="circle.png" menu-count="9" menu-border="5" knob-speed="50">
                 <knob-item class="menu" icon="icons:home" title="HOME" item-is-selected="home"></knob-item>
                 <knob-item class="menu" icon="icons:account-circle" title="PROFILE"></knob-item>
                 <knob-item class="menu" icon="icons:favorite" title="FAVORITE"></knob-item>
@@ -68,7 +66,7 @@
             <script>
                 const knobIcon = document.getElementById ('icon');
 
-                knobIcon.knobBackgroundImage = 'circle01.png';
+                knobIcon.knobBackgroundImage = 'circle.png';
                 knobIcon.menuCount = 9;
                 knobIcon.menuBorder = 4;
 
@@ -117,7 +115,7 @@
             </knob-element>
             <script>
                 const knob = document.getElementById ('ajax');
-                knob.knobBackgroundImage = 'circle01.png';
+                knob.knobBackgroundImage = 'circle.png';
                 knob.menuCount = 9;
                 knob.menuBorder = 4;
 
@@ -158,7 +156,7 @@
                 drepeat.setAttribute ('items', JSON.stringify (items));
 
                 const repeat = document.getElementById ('repeat');
-                repeat.knobBackgroundImage = 'circle01.png';
+                repeat.knobBackgroundImage = 'circle.png';
             </script>
         </template>
     </demo-snippet>
