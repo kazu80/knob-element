@@ -8,6 +8,8 @@ It select menu with fingers swipe gesture.
 ## Version
 1.0.0
 
+## DEMO
+
 <!--
 ```html
 <custom-element-demo>
