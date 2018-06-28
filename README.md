@@ -65,7 +65,7 @@ Next. Add the `knob-element` custom tag and put some `knob-item` in `knob-elemen
     </knob-element>
 ```
 
-Able to use `dom-repeat`
+Able to use `dom-repeat`.
 
 ```
     <knob-element id="repeat" knob-background-image="circle.png" menu-count="9" menu-border="4" knob-speed="550">
